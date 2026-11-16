@@ -464,6 +464,20 @@
             outline-offset: 3px;
         }
 
+        /* Lien "Aller au contenu" : cache, apparait seulement avec la touche Tab */
+        .skip-link {
+            position: absolute;
+            left: 1rem;
+            top: -100px;
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 0.6rem 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            z-index: 2000;
+        }
+        .skip-link:focus { top: 1rem; }
+
         /* Pas d'animations pour ceux qui les ont desactivees */
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
@@ -535,6 +549,7 @@
     </style>
 </head>
 <body>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
     <div class="header-top">
         <span id="statut" class="statut"></span>
         Lun-Mer &amp; Ven-Sam 7h-12h30 | 14h30-19h30 &middot; Jeudi &amp; Dim matin 7h-12h30
@@ -553,6 +568,7 @@
         </nav>
     </header>
 
+    <main id="contenu">
     <section class="hero">
         <h1>Le Chiquito</h1>
         <p>Votre petit commerce de confiance à Arès</p>
@@ -600,13 +616,13 @@
             <h2>Découvrez Le Chiquito</h2>
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="facade.jpg" alt="Façade du Chiquito à Arès" loading="lazy">
+                    <img src="facade.jpg" width="1320" height="983" alt="Façade du Chiquito à Arès" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="interieur_magasin.jpg" alt="Intérieur du magasin" loading="lazy">
+                    <img src="interieur_magasin.jpg" width="838" height="1280" alt="Intérieur du magasin" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="bassin.jpg" alt="Le bassin d'Arcachon, à deux pas" loading="lazy">
+                    <img src="bassin.jpg" width="1245" height="991" alt="Le bassin d'Arcachon, à deux pas" loading="lazy">
                 </div>
             </div>
         </div>
@@ -700,6 +716,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <footer>
         <strong>Le Chiquito</strong>
