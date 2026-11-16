@@ -160,11 +160,11 @@
 
         .btn-primary {
             background: var(--secondary);
-            color: white;
+            color: var(--primary);
         }
 
         .btn-primary:hover {
-            background: #ff7a00;
+            background: #ffa333;
             transform: translateY(-2px);
         }
 
@@ -398,14 +398,17 @@
         }
 
         .contact-box a {
-            color: var(--secondary);
-            text-decoration: none;
+            color: var(--primary);
+            text-decoration: underline;
+            text-decoration-color: var(--secondary);
+            text-decoration-thickness: 3px;
+            text-underline-offset: 4px;
             font-weight: 900;
             font-size: 1.1rem;
         }
 
         .contact-box a:hover {
-            text-decoration: underline;
+            color: var(--accent);
         }
 
         .map-section {
@@ -459,7 +462,7 @@
             font-weight: 700;
             background: #555;
         }
-        .statut.ouvert { background: #1e8e3e; }
+        .statut.ouvert { background: #157a32; }
         .statut.ferme { background: #c62828; }
 
         /* Jour actuel dans les horaires */
@@ -501,7 +504,7 @@
                 right: 1rem;
                 bottom: 1rem;
                 background: var(--secondary);
-                color: white;
+                color: var(--primary);
                 text-align: center;
                 padding: 0.9rem;
                 border-radius: 6px;
