@@ -458,6 +458,19 @@
 
         html { scroll-behavior: smooth; }
 
+        /* Contour visible quand on navigue au clavier (touche Tab) */
+        a:focus-visible {
+            outline: 3px solid var(--secondary);
+            outline-offset: 3px;
+        }
+
+        /* Pas d'animations pour ceux qui les ont desactivees */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            * { transition: none !important; }
+            .btn:hover, .gallery-item:hover, .product-card:hover { transform: none; }
+        }
+
         /* Badge ouvert / ferme */
         .statut {
             display: inline-block;
@@ -528,7 +541,7 @@
     </div>
 
     <header>
-        <nav>
+        <nav aria-label="Menu principal">
             <div class="logo">Le Chiquito</div>
             <div>
                 <a href="#horaires">Horaires</a>
