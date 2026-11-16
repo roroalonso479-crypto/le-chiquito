@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Chiquito - Tabac Presse à Arès</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #003B7A;
+            --secondary: #FF8C00;
+            --accent: #0052a3;
+            --light: #F5F5F5;
+            --dark: #222;
+            --border: #ddd;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: white;
+        }
+
+        /* Header avec horaires */
+        .header-top {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        header {
+            background: white;
+            border-bottom: 3px solid var(--secondary);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero avec image */
+        .hero {
+            background: linear-gradient(135deg, rgba(0, 59, 122, 0.8) 0%, rgba(0, 82, 163, 0.8) 100%), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23003B7A" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff7a00;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--light);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        /* Galerie Images */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            height: 350px;
+            background: linear-gradient(135deg, var(--light), white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+            border: 2px dashed var(--border);
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Horaires */
+        .horaires-banner {
+            background: white;
+            border-left: 5px solid var(--secondary);
+            border-right: 5px solid var(--secondary);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .horaires-banner h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .horaires-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .horaire-item {
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 4px;
+            border-top: 3px solid var(--secondary);
+        }
+
+        .horaire-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* À Propos */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .about-text p {
+            margin-bottom: 1.2rem;
+            line-height: 1.9;
+            color: #333;
+        }
+
+        .about-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .about-list li {
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .about-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .about-image {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 350px;
+            background: linear-gradient(135deg, var(--light), white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Produits */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            padding: 2rem;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            text-align: center;
+            transition: all 0.3s;
+            border-top: 4px solid var(--secondary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,59,122,0.15);
+        }
+
+        .product-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 900;
+            font-size: 1.15rem;
+        }
+
+        .product-card p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 4px;
+            border-left: 5px solid var(--secondary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .contact-box h3 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            font-weight: 900;
+            font-size: 1.3rem;
+        }
+
+        .contact-box p {
+            line-height: 1.9;
+            color: #333;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .contact-box a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        .map-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .map-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .map-iframe {
+            width: 100%;
+            height: 450px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 3px solid var(--secondary);
+        }
+
+        footer p {
+            margin: 0.7rem 0;
+            font-weight: 500;
+        }
+
+        footer strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 1rem; }
+            nav a { margin-left: 0; }
+            .hero h1 { font-size: 2.2rem; }
+            .about { grid-template-columns: 1fr; }
+            h2 { font-size: 1.8rem; }
+            .hero-buttons { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-top">
+        Ouvert: Lun-Mer & Ven-Sam 7h-12h30 | 14h30-19h30 | Jeudi & Dim matin 7h-12h30
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">Le Chiquito</div>
+            <div>
+                <a href="#photos">Photos</a>
+                <a href="#about">À Propos</a>
+                <a href="#products">Produits</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Le Chiquito</h1>
+        <p>Votre petit commerce de confiance à Arès</p>
+        <p style="font-size: 1.1rem; opacity: 0.9;">Tabac • Presse • Jeux • Articles pratiques</p>
+        <div class="hero-buttons">
+            <a href="tel:0611090390" class="btn btn-primary">Appeler: 06 11 09 03 90</a>
+            <a href="#contact" class="btn btn-secondary">Nous localiser</a>
+        </div>
+    </section>
+
+    <!-- Galerie Photos -->
+    <section id="photos">
+        <div class="container">
+            <h2>Découvrez Le Chiquito</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="facade.jpg" alt="Façade Le Chiquito">
+                </div>
+                <div class="gallery-item">
+                    <img src="interieur_magasin.jpg" alt="Intérieur du Magasin">
+                </div>
+                <div class="gallery-item">
+                    <img src="comptoir.jpg" alt="Comptoir & Produits">
+                </div>
+                <div class="gallery-item">
+                    <img src="bassin.jpg" alt="Bassin d'Arcachon - Localisation">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>À Propos</h2>
+            <div class="about">
+                <div class="about-text">
+                    <h3>Votre petit coin du quartier</h3>
+                    <p>Depuis des années, Le Chiquito est l'endroit où tout le monde se croise à Arès. Un vrai petit commerce de quartier, chaleureux et accueillant.</p>
+                    <p>Ici, pas de grandes surfaces froides. Juste une équipe qui vous écoute, vous conseille, et prend le temps de discuter avec vous!</p>
+                    <p>Tabacs, presse, jeux FDJ, petits articles utiles... Tout ce qu'il vous faut en un seul endroit!</p>
+
+                    <ul class="about-list">
+                        <li>Tabacs de toutes sortes et accessoires</li>
+                        <li>Journaux, magazines, BD complètes</li>
+                        <li>Jeux FDJ - Tentez votre chance!</li>
+                        <li>Articles pratiques et confiseries</li>
+                        <li>Une équipe toujours disponible!</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="interieur_magasin.jpg" alt="Intérieur du Magasin">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products">
+        <div class="container">
+            <h2>Nos Produits</h2>
+            <div class="products">
+                <div class="product-card">
+                    <h3>Tabacs</h3>
+                    <p>Tous les types et toutes les marques. Nous avons ce qu'il vous faut.</p>
+                </div>
+                <div class="product-card">
+                    <h3>Presse & Magazines</h3>
+                    <p>Le journal du jour, vos magazines favoris, BD complètes.</p>
+                </div>
+                <div class="product-card">
+                    <h3>Jeux FDJ</h3>
+                    <p>Tentez votre chance! Jeux à gratter, loto, paris sportifs.</p>
+                </div>
+                <div class="product-card">
+                    <h3>Accessoires</h3>
+                    <p>Briquets, cendriers, pipes. Tout l'équipement nécessaire.</p>
+                </div>
+                <div class="product-card">
+                    <h3>Confiseries</h3>
+                    <p>Bonbons, chocolats, gâteaux. Un petit plaisir du jour!</p>
+                </div>
+                <div class="product-card">
+                    <h3>Articles Divers</h3>
+                    <p>Mercerie, piles, cartes postales, et bien d'autres surprises.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="horaires">
+        <div class="container">
+            <h2>Horaires d'Ouverture</h2>
+            <div class="horaires-banner">
+                <h3>Quand nous sommes ouverts?</h3>
+                <div class="horaires-grid">
+                    <div class="horaire-item">
+                        <strong>Lundi - Mercredi</strong>
+                        <p>7h00 - 12h30</p>
+                        <p>14h30 - 19h30</p>
+                    </div>
+                    <div class="horaire-item">
+                        <strong>Jeudi</strong>
+                        <p>7h00 - 12h30</p>
+                        <p style="color: #ff6b6b; font-weight: bold;">Fermé l'après-midi</p>
+                    </div>
+                    <div class="horaire-item">
+                        <strong>Vendredi - Samedi</strong>
+                        <p>7h00 - 12h30</p>
+                        <p>14h30 - 19h30</p>
+                    </div>
+                    <div class="horaire-item">
+                        <strong>Dimanche</strong>
+                        <p>7h00 - 12h30</p>
+                        <p style="color: #ff6b6b; font-weight: bold;">Fermé l'après-midi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Nous Contacter & Nous Localiser</h2>
+            <div class="contact-grid">
+                <div class="contact-box">
+                    <h3>Adresse Précise</h3>
+                    <p><strong>Le Chiquito</strong></p>
+                    <p>6 bis rue du 14 juillet</p>
+                    <p>33740 Arès</p>
+                    <p style="margin-top: 1rem; color: #666;">Gironde, France</p>
+                </div>
+                <div class="contact-box">
+                    <h3>Téléphoner</h3>
+                    <p><a href="tel:0611090390">06 11 09 03 90</a></p>
+                    <p style="margin-top: 1.5rem; color: #666; font-size: 0.95rem;">Appelez-nous pour toute question ou commande spéciale.</p>
+                </div>
+                <div class="contact-box">
+                    <h3>Email</h3>
+                    <p><a href="mailto:ledordogne.levince19@gmail.com">ledordogne.levince19@gmail.com</a></p>
+                    <p style="margin-top: 1.5rem; color: #666; font-size: 0.95rem;">Écrivez-nous pour nous contacter directement.</p>
+                </div>
+            </div>
+
+            <div class="map-section">
+                <h3>Notre Localisation Exacte</h3>
+                <iframe class="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2845.8634890890097!2d-0.9397539!3d44.7559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5496e5c5c5c5c5d%3A0x5c5c5c5c5c5c5c5c!2sArès!5e0!3m2!1sfr!2sfr!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <strong>Le Chiquito</strong>
+        <p>6 bis rue du 14 juillet, 33740 Arès</p>
+        <p>06 11 09 03 90</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">© 2024 Le Chiquito - Tous droits réservés</p>
+    </footer>
+</body>
+</html>
