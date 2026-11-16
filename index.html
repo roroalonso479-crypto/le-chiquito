@@ -438,26 +438,82 @@
             margin-bottom: 0.5rem;
         }
 
+        html { scroll-behavior: smooth; }
+
+        /* Badge ouvert / ferme */
+        .statut {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            margin-right: 0.8rem;
+            border-radius: 20px;
+            font-weight: 700;
+            background: #555;
+        }
+        .statut.ouvert { background: #1e8e3e; }
+        .statut.ferme { background: #c62828; }
+
+        /* Jour actuel dans les horaires */
+        .horaire-item.aujourdhui {
+            background: white;
+            border: 2px solid var(--secondary);
+            border-top-width: 5px;
+            box-shadow: 0 4px 12px rgba(255,140,0,0.25);
+        }
+        .horaire-item.aujourdhui strong::after {
+            content: " (aujourd'hui)";
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Bouton Appeler fixe sur telephone */
+        .appel-mobile { display: none; }
+
         @media (max-width: 768px) {
-            nav { flex-direction: column; gap: 1rem; }
-            nav a { margin-left: 0; }
+            header { padding: 0.8rem 0; }
+            nav { flex-direction: column; gap: 0.4rem; padding: 0 1rem; }
+            .logo { font-size: 1.5rem; }
+            nav a { margin: 0 0.5rem; font-size: 0.9rem; }
+            .header-top { font-size: 0.85rem; padding: 0.7rem 1rem; }
+            .statut { display: block; width: fit-content; margin: 0 auto 0.4rem; }
+            .hero { min-height: 380px; padding: 4rem 1rem; }
             .hero h1 { font-size: 2.2rem; }
-            .about { grid-template-columns: 1fr; }
-            h2 { font-size: 1.8rem; }
-            .hero-buttons { flex-direction: column; }
+            h2 { font-size: 1.8rem; margin-bottom: 2rem; }
+            section { padding: 3rem 0; }
+            .container { padding: 0 1rem; }
+            .hero-buttons { flex-direction: column; width: 100%; }
             .btn { width: 100%; }
+            .map-iframe { height: 320px; }
+            body { padding-bottom: 4.5rem; }
+            .appel-mobile {
+                display: block;
+                position: fixed;
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+                background: var(--secondary);
+                color: white;
+                text-align: center;
+                padding: 0.9rem;
+                border-radius: 6px;
+                font-weight: 700;
+                text-decoration: none;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+                z-index: 100;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header-top">
-        Ouvert: Lun-Mer & Ven-Sam 7h-12h30 | 14h30-19h30 | Jeudi & Dim matin 7h-12h30
+        <span id="statut" class="statut"></span>
+        Lun-Mer &amp; Ven-Sam 7h-12h30 | 14h30-19h30 &middot; Jeudi &amp; Dim matin 7h-12h30
     </div>
 
     <header>
         <nav>
             <div class="logo">Le Chiquito</div>
             <div>
+                <a href="#horaires">Horaires</a>
                 <a href="#photos">Photos</a>
                 <a href="#about">À Propos</a>
                 <a href="#products">Produits</a>
@@ -471,8 +527,39 @@
         <p>Votre petit commerce de confiance à Arès</p>
         <p style="font-size: 1.1rem; opacity: 0.9;">Tabac • Presse • Jeux • Articles pratiques</p>
         <div class="hero-buttons">
-            <a href="tel:0611090390" class="btn btn-primary">Appeler: 06 11 09 03 90</a>
-            <a href="#contact" class="btn btn-secondary">Nous localiser</a>
+            <a href="tel:0611090390" class="btn btn-primary">Appeler : 06 11 09 03 90</a>
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener" class="btn btn-secondary">Itinéraire</a>
+        </div>
+    </section>
+
+    <section id="horaires">
+        <div class="container">
+            <h2>Horaires d'Ouverture</h2>
+            <div class="horaires-banner">
+                <h3>Quand sommes-nous ouverts&nbsp;?</h3>
+                <div class="horaires-grid">
+                    <div class="horaire-item" data-jours="1,2,3">
+                        <strong>Lundi - Mercredi</strong>
+                        <p>7h00 - 12h30</p>
+                        <p>14h30 - 19h30</p>
+                    </div>
+                    <div class="horaire-item" data-jours="4">
+                        <strong>Jeudi</strong>
+                        <p>7h00 - 12h30</p>
+                        <p style="color: #c62828; font-weight: bold;">Fermé l'après-midi</p>
+                    </div>
+                    <div class="horaire-item" data-jours="5,6">
+                        <strong>Vendredi - Samedi</strong>
+                        <p>7h00 - 12h30</p>
+                        <p>14h30 - 19h30</p>
+                    </div>
+                    <div class="horaire-item" data-jours="0">
+                        <strong>Dimanche</strong>
+                        <p>7h00 - 12h30</p>
+                        <p style="color: #c62828; font-weight: bold;">Fermé l'après-midi</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -501,15 +588,15 @@
                 <div class="about-text">
                     <h3>Votre petit coin du quartier</h3>
                     <p>Depuis des années, Le Chiquito est l'endroit où tout le monde se croise à Arès. Un vrai petit commerce de quartier, chaleureux et accueillant.</p>
-                    <p>Ici, pas de grandes surfaces froides. Juste une équipe qui vous écoute, vous conseille, et prend le temps de discuter avec vous!</p>
-                    <p>Tabacs, presse, jeux FDJ, petits articles utiles... Tout ce qu'il vous faut en un seul endroit!</p>
+                    <p>Ici, pas de grandes surfaces froides. Juste une équipe qui vous écoute, vous conseille, et prend le temps de discuter avec vous&nbsp;!</p>
+                    <p>Tabacs, presse, jeux FDJ, petits articles utiles... Tout ce qu'il vous faut en un seul endroit&nbsp;!</p>
 
                     <ul class="about-list">
                         <li>Tabacs de toutes sortes et accessoires</li>
                         <li>Journaux, magazines, BD complètes</li>
-                        <li>Jeux FDJ - Tentez votre chance!</li>
+                        <li>Jeux FDJ - Tentez votre chance&nbsp;!</li>
                         <li>Articles pratiques et confiseries</li>
-                        <li>Une équipe toujours disponible!</li>
+                        <li>Une équipe toujours disponible&nbsp;!</li>
                     </ul>
                 </div>
             </div>
@@ -530,7 +617,7 @@
                 </div>
                 <div class="product-card">
                     <h3>Jeux FDJ</h3>
-                    <p>Tentez votre chance! Jeux à gratter, loto, paris sportifs.</p>
+                    <p>Tentez votre chance&nbsp;! Jeux à gratter, loto, paris sportifs.</p>
                 </div>
                 <div class="product-card">
                     <h3>Accessoires</h3>
@@ -538,42 +625,11 @@
                 </div>
                 <div class="product-card">
                     <h3>Confiseries</h3>
-                    <p>Bonbons, chocolats, gâteaux. Un petit plaisir du jour!</p>
+                    <p>Bonbons, chocolats, gâteaux. Un petit plaisir du jour&nbsp;!</p>
                 </div>
                 <div class="product-card">
                     <h3>Articles Divers</h3>
                     <p>Mercerie, piles, cartes postales, et bien d'autres surprises.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="horaires">
-        <div class="container">
-            <h2>Horaires d'Ouverture</h2>
-            <div class="horaires-banner">
-                <h3>Quand nous sommes ouverts?</h3>
-                <div class="horaires-grid">
-                    <div class="horaire-item">
-                        <strong>Lundi - Mercredi</strong>
-                        <p>7h00 - 12h30</p>
-                        <p>14h30 - 19h30</p>
-                    </div>
-                    <div class="horaire-item">
-                        <strong>Jeudi</strong>
-                        <p>7h00 - 12h30</p>
-                        <p style="color: #ff6b6b; font-weight: bold;">Fermé l'après-midi</p>
-                    </div>
-                    <div class="horaire-item">
-                        <strong>Vendredi - Samedi</strong>
-                        <p>7h00 - 12h30</p>
-                        <p>14h30 - 19h30</p>
-                    </div>
-                    <div class="horaire-item">
-                        <strong>Dimanche</strong>
-                        <p>7h00 - 12h30</p>
-                        <p style="color: #ff6b6b; font-weight: bold;">Fermé l'après-midi</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -584,11 +640,12 @@
             <h2>Nous Contacter & Nous Localiser</h2>
             <div class="contact-grid">
                 <div class="contact-box">
-                    <h3>Adresse Précise</h3>
+                    <h3>Adresse</h3>
                     <p><strong>Le Chiquito</strong></p>
                     <p>6 bis rue du 14 juillet</p>
                     <p>33740 Arès</p>
                     <p style="margin-top: 1rem; color: #666;">Gironde, France</p>
+                    <p><a href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener">Itinéraire &rarr;</a></p>
                 </div>
                 <div class="contact-box">
                     <h3>Téléphoner</h3>
@@ -615,5 +672,38 @@
         <p>06 11 09 03 90</p>
         <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">© 2026 Le Chiquito - Tous droits réservés</p>
     </footer>
+
+    <a href="tel:0611090390" class="appel-mobile">Appeler : 06 11 09 03 90</a>
+
+    <script>
+        // Horaires : 0 = dimanche ... 6 = samedi, en minutes depuis minuit
+        var MATIN = [420, 750];       // 7h00 - 12h30
+        var APREM = [870, 1170];      // 14h30 - 19h30
+        function creneaux(jour) {
+            return (jour === 0 || jour === 4) ? [MATIN] : [MATIN, APREM];
+        }
+        function heure(min) {
+            var m = min % 60;
+            return Math.floor(min / 60) + 'h' + (m < 10 ? '0' : '') + m;
+        }
+        function statut(jour, min) {
+            var c = creneaux(jour);
+            for (var i = 0; i < c.length; i++) {
+                if (min >= c[i][0] && min < c[i][1]) return { ouvert: true, texte: 'Ouvert, ferme à ' + heure(c[i][1]) };
+                if (min < c[i][0]) return { ouvert: false, texte: 'Fermé, ouvre à ' + heure(c[i][0]) };
+            }
+            return { ouvert: false, texte: 'Fermé, ouvre demain à ' + heure(creneaux((jour + 1) % 7)[0][0]) };
+        }
+        // Heure de France, quel que soit le pays du visiteur
+        var paris = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+        var jour = paris.getDay();
+        var s = statut(jour, paris.getHours() * 60 + paris.getMinutes());
+        var badge = document.getElementById('statut');
+        badge.textContent = s.texte;
+        badge.className = 'statut ' + (s.ouvert ? 'ouvert' : 'ferme');
+        document.querySelectorAll('.horaire-item').forEach(function (el) {
+            if (el.dataset.jours.split(',').indexOf(String(jour)) !== -1) el.classList.add('aujourdhui');
+        });
+    </script>
 </body>
 </html>
