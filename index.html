@@ -528,6 +528,62 @@
             border-radius: 10px;
         }
 
+        /* Formulaire de suggestions (aux couleurs du site, envoi vers Google Forms) */
+        .suggest-intro {
+            max-width: 680px;
+            margin: -1.5rem auto 2rem;
+            font-size: 1.1rem;
+        }
+        .suggest-form, .suggest-merci {
+            max-width: 680px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 14px;
+            border-top: 6px solid var(--secondary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 2rem;
+        }
+        .suggest-form label {
+            display: block;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 0.4rem;
+        }
+        .suggest-form input, .suggest-form select, .suggest-form textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 1.4rem;
+            padding: 0.8rem 1rem;
+            font: inherit;
+            color: var(--dark);
+            background: var(--cream);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+        }
+        .suggest-form textarea { resize: vertical; }
+        .suggest-form button { font-family: inherit; font-weight: 700; }
+        .suggest-form button:disabled { opacity: 0.6; cursor: wait; }
+        .suggest-form .sg-piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }        .suggest-form input:focus, .suggest-form select:focus, .suggest-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+        }
+        .requis { color: var(--accent); }
+        .facultatif { color: #666; font-weight: 400; font-size: 0.9rem; }
+        .suggest-note { margin-top: 1rem; font-size: 0.85rem; color: #666; }
+        .suggest-merci { text-align: center; }
+        .suggest-merci h3 { color: var(--primary); font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .suggest-erreur {
+            max-width: 680px;
+            margin: 1rem auto 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .suggest-erreur a { color: var(--navy); }
+        @media (max-width: 480px) {
+            .suggest-form, .suggest-merci { padding: 1.4rem; }
+        }
+
         footer {
             background: var(--navy);
             color: white;
@@ -828,6 +884,45 @@
         </div>
     </section>
 
+    <section id="suggestions">
+        <div class="container">
+            <h2>Une idée de produit ?</h2>
+            <p class="suggest-intro">Un journal, une gourmandise, un article qui vous manque ? Dites-le-nous, on lit toutes les suggestions.</p>
+            <!-- Formulaire aux couleurs du site : les reponses partent dans le Google Forms du magasin
+                 (et donc dans Google Sheets + e-mail). Les noms "entry.xxx" viennent du Google Forms :
+                 si on modifie les questions dans Google Forms, il faut les mettre a jour ici. -->
+            <form class="suggest-form" id="suggest-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdqD77G_Q5uZnCX6MF8-U7Swba2Rc--_7vGXY2wP4x4LeO7MA/formResponse" method="POST">
+                <label for="sg-produit">Quel produit aimeriez-vous trouver chez nous&nbsp;? <span class="requis">*</span></label>
+                <input type="text" id="sg-produit" name="entry.1073004640" required maxlength="200">
+
+                <label for="sg-categorie">Catégorie <span class="facultatif">(facultatif)</span></label>
+                <select id="sg-categorie" name="entry.2059275558">
+                    <option value="">Choisir…</option>
+                    <!-- value = texte EXACT de l'option dans Google Forms (sinon Google refuse l'envoi) -->
+                    <option value="presse et Magazines">Presse et magazines</option>
+                    <option value="Confiseries">Confiseries</option>
+                    <option value="jeux">Jeux</option>
+                    <option value="Articles divers">Articles divers</option>
+                    <option value="Autres">Autres</option>
+                </select>
+
+                <label for="sg-detail">Un détail à ajouter&nbsp;? <span class="facultatif">(facultatif)</span></label>
+                <textarea id="sg-detail" name="entry.2109840550" rows="4" maxlength="1000"></textarea>
+
+                <!-- Piege a robots : case invisible pour les humains ; si elle est remplie, rien n'est envoye -->
+                <input type="text" name="site_web" class="sg-piege" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                <button type="submit" class="btn btn-primary">Envoyer ma suggestion</button>
+                <p class="suggest-note">Aucune donnée personnelle demandée. <span class="requis">*</span> obligatoire</p>
+            </form>
+            <div class="suggest-merci" id="suggest-merci" hidden>
+                <h3>Merci pour votre idée&nbsp;!</h3>
+                <p>Nous la lisons avec attention. À bientôt au Chiquito.</p>
+            </div>
+            <p class="suggest-erreur" id="suggest-erreur" hidden>L'envoi n'a pas fonctionné. Vérifiez votre connexion ou <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqD77G_Q5uZnCX6MF8-U7Swba2Rc--_7vGXY2wP4x4LeO7MA/viewform" target="_blank" rel="noopener">utilisez ce formulaire</a>.</p>
+        </div>
+    </section>
+
     <section id="contact">
         <div class="container">
             <h2>Nous Contacter & Nous Localiser</h2>
@@ -873,6 +968,49 @@
     <a href="tel:0611090390" class="appel-mobile cache">Appeler : 06 11 09 03 90</a>
 
     <script>
+        // Suggestions : envoi en arriere-plan vers Google Forms, puis message de remerciement
+        (function () {
+            var form = document.getElementById('suggest-form');
+            if (!form || !window.fetch) return; // sans fetch : envoi classique vers la page Google
+            var produit = document.getElementById('sg-produit');
+            function merci() {
+                form.hidden = true;
+                document.getElementById('suggest-erreur').hidden = true;
+                document.getElementById('suggest-merci').hidden = false;
+            }
+            // Refuse une reponse faite seulement d'espaces (Google la refuserait)
+            produit.addEventListener('input', function () { produit.setCustomValidity(''); });
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!produit.value.trim()) {
+                    produit.setCustomValidity('Merci d\'indiquer un produit.');
+                    produit.reportValidity();
+                    return;
+                }
+                if (form.site_web.value) { merci(); return; } // robot : on ne transmet rien
+                var bouton = form.querySelector('button');
+                bouton.disabled = true;
+                bouton.textContent = 'Envoi…';
+                // On n'envoie que les champs remplis, sans espaces inutiles
+                var donnees = new URLSearchParams();
+                ['entry.1073004640', 'entry.2059275558', 'entry.2109840550'].forEach(function (nom) {
+                    var v = form.elements[nom].value.trim();
+                    if (v) donnees.append(nom, v);
+                });
+                // Si Google ne repond pas en 15 secondes, on affiche le message d'erreur
+                var stop = window.AbortController ? new AbortController() : null;
+                var minuteur = setTimeout(function () { if (stop) stop.abort(); }, 15000);
+                fetch(form.action, { method: 'POST', mode: 'no-cors', body: donnees, signal: stop ? stop.signal : undefined })
+                    .then(function () { clearTimeout(minuteur); merci(); })
+                    .catch(function () {
+                        clearTimeout(minuteur);
+                        bouton.disabled = false;
+                        bouton.textContent = 'Envoyer ma suggestion';
+                        document.getElementById('suggest-erreur').hidden = false;
+                    });
+            });
+        })();
+
         // Horaires : 0 = dimanche ... 6 = samedi, en minutes depuis minuit
         var MATIN = [420, 750];       // 7h00 - 12h30
         var APREM = [870, 1170];      // 14h30 - 19h30
