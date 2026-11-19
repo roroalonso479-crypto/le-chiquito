@@ -2,12 +2,18 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Le Chiquito - Tabac Presse à Arès</title>
     <meta name="description" content="Le Chiquito, tabac presse et point FDJ au 6 bis rue du 14 Juillet à Arès. Ouvert 7h-12h30 et 14h30-19h30 (fermé jeudi et dimanche après-midi).">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%23007577'/><text x='32' y='45' font-family='Arial' font-weight='bold' font-size='38' fill='%23FFC93C' text-anchor='middle'>C</text></svg>">
     <link rel="canonical" href="https://roroalonso479-crypto.github.io/le-chiquito/">
-    <link rel="preload" as="image" href="facade.jpg" fetchpriority="high">
+    <!-- Appli installable : nom, icone, couleurs (voir manifest.webmanifest) -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icone-180.png">
+    <meta name="apple-mobile-web-app-title" content="Le Chiquito">
+    <meta name="color-scheme" content="light dark">
+    <link rel="preload" as="image" href="facade.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="font" href="polices/outfit.woff2" type="font/woff2" crossorigin>
     <meta name="theme-color" content="#1D3557">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Le Chiquito">
@@ -41,586 +47,526 @@
     }
     </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Police rangee avec le site (rien n'est demande a Google) */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('polices/outfit.woff2') format('woff2');
+            font-weight: 100 900;
+            font-display: swap;
         }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #007577;   /* turquoise (titres, logo, liens) */
-            --secondary: #FFC93C; /* jaune soleil (boutons, traits) */
-            --accent: #D63864;    /* rose framboise (bouton Appeler, touches) */
-            --navy: #1D3557;      /* bleu nuit (bandeau du haut, pied de page) */
-            --cream: #FFFDF6;     /* fond creme */
-            --light: #EEF8F7;     /* turquoise tres pale (sections alternees) */
-            --dark: #222;
-            --border: #ddd;
+            --primary: #007577;   /* turquoise */
+            --secondary: #FFC93C; /* jaune soleil */
+            --accent: #D63864;    /* rose framboise (Appeler) */
+            --navy: #1D3557;      /* bleu nuit */
+            --cream: #FFFDF6;     /* creme */
+            --light: #EEF8F7;     /* turquoise tres pale */
+
+            /* Roles (changent en mode sombre) */
+            --fond: var(--cream);
+            --fond-2: var(--light);
+            --carte: #fff;
+            --texte: #222;
+            --texte-doux: #4d5560;
+            --titre: var(--primary);
+            --trait: rgba(29,53,87,0.12);
+            --frise-vide: rgba(29,53,87,0.10);
+            --champ: var(--cream);
+            --rayon: 22px;
+            --ombre: 0 4px 18px rgba(29,53,87,0.08);
+            --barre-bas: 0px;
         }
+
+        /* Mode sombre automatique (si le telephone est en mode sombre), avec les memes couleurs */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --fond: var(--navy);
+                --fond-2: rgba(0,0,0,0.16);
+                --carte: rgba(255,255,255,0.07);
+                --texte: var(--cream);
+                --texte-doux: rgba(255,253,246,0.78);
+                --titre: var(--light);
+                --trait: rgba(255,255,255,0.14);
+                --frise-vide: rgba(255,255,255,0.14);
+                --champ: rgba(255,255,255,0.08);
+                --ombre: none;
+            }
+        }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+            font-size: 1.06rem;
             line-height: 1.6;
-            color: var(--dark);
-            background-color: var(--cream);
+            color: var(--texte);
+            background: var(--fond);
+            padding-bottom: var(--barre-bas);
         }
 
-        /* Header avec horaires */
+        img { display: block; max-width: 100%; height: auto; }
+        h1, h2, h3 { text-wrap: balance; line-height: 1.12; }
+
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ===== Barre du haut : nom, statut en direct, horaires ===== */
         .header-top {
-            background: var(--navy);
-            color: white;
-            padding: 1rem 0;
-            font-size: 0.95rem;
-            text-align: center;
-        }
-
-        /* Menu qui reste en haut de l'ecran pendant qu'on fait defiler */
-        header {
-            background: white;
-            border-bottom: 4px solid var(--secondary);
-            padding: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
-            z-index: 50;
-        }
-
-        /* Les titres de section ne passent pas sous le menu fixe */
-        section[id] { scroll-margin-top: 90px; }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        nav a {
-            color: var(--navy);
-            text-decoration: none;
-            margin-left: 2.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Hero avec image */
-        .hero {
-            background: linear-gradient(135deg, rgba(0, 120, 125, 0.62) 0%, rgba(29, 70, 120, 0.78) 100%), url('facade.jpg');
-            text-shadow: 0 2px 10px rgba(0,0,0,0.35);
-            background-size: cover;
-            background-position: center;
+            z-index: 60;
+            background: var(--navy);
             color: white;
-            padding: 6rem 2rem;
+            border-bottom: 4px solid var(--secondary);
+            padding-top: env(safe-area-inset-top);
+        }
+        .barre {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.45rem;
+            letter-spacing: -0.5px;
+            margin-right: auto;
+        }
+        .statut {
+            display: inline-block;
+            padding: 0.18rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            background: #555;
+            white-space: nowrap;
+        }
+        .statut.ouvert { background: #157a32; }
+        .statut.ferme { background: #c62828; }
+        .menu-haut { display: flex; gap: 0.2rem; }
+        .menu-haut a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            transition: background-color 0.2s;
+        }
+        .menu-haut a:hover { background: rgba(255,255,255,0.14); }
+        .horaires-ligne {
             text-align: center;
-            min-height: 500px;
+            font-size: 0.9rem;
+            padding: 0 1rem 0.55rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        section[id] { scroll-margin-top: 100px; }
+
+        /* ===== Accueil : photo + carte "Aujourd'hui" ===== */
+        .accueil {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 1.2rem;
+            padding-top: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        .carte-photo {
+            position: relative;
+            min-height: 470px;
+            border-radius: var(--rayon);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Vague sous la photo du haut (rappel du bassin) */
-        .hero { position: relative; }
-        .vague {
-            position: absolute;
-            left: 0;
-            bottom: -1px;
-            width: 100%;
-            height: 70px;
-            display: block;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-            font-weight: 500;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-primary {
-            background: var(--accent);
+            justify-content: flex-end;
+            padding: 1.8rem;
             color: white;
+            isolation: isolate;
+        }
+        .carte-photo picture, .carte-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 40% 30%;
+            z-index: -2;
+        }
+        .carte-photo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(0,117,119,0.10) 20%, rgba(29,53,87,0.92) 85%);
+        }
+        .carte-photo h1 { font-size: clamp(2.8rem, 7vw, 4.8rem); font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 0.6rem; }
+        .carte-photo .sous { font-size: 1.2rem; font-weight: 500; margin-bottom: 1rem; }
+        .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .tags li {
+            padding: 0.2rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            font-weight: 500;
+            font-size: 0.92rem;
         }
 
-        .btn-primary:hover {
-            background: #c22d57;
-            transform: translateY(-2px);
+        .carte-jour {
+            background: var(--carte);
+            border: 1px solid var(--trait);
+            border-radius: var(--rayon);
+            box-shadow: var(--ombre);
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
         }
+        .jour-nom { color: var(--texte-doux); font-weight: 500; }
+        .jour-grand {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.05;
+            margin: 0.2rem 0 0.3rem;
+            color: var(--titre);
+        }
+        .jour-petit { font-weight: 500; color: var(--texte-doux); }
 
-        .btn-secondary {
-            background: var(--secondary);
-            color: var(--navy);
+        /* La frise de la journee : ce qui fait la difference de cette proposition */
+        .frise {
+            position: relative;
+            height: 22px;
+            margin: 1.8rem 0 0.5rem;
+            border-radius: 999px;
+            background: var(--frise-vide);
         }
+        .frise .creneau {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-radius: 999px;
+            background: var(--primary);
+        }
+        .frise .creneau.passe { opacity: 0.4; }
+        .frise .maintenant {
+            position: absolute;
+            top: -7px;
+            bottom: -7px;
+            width: 4px;
+            margin-left: -2px;
+            border-radius: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px var(--carte);
+        }
+        .frise .maintenant::after {
+            content: "Maintenant";
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        /* Pres des bords, l'etiquette reste dans la carte */
+        .frise .maintenant.gauche::after { left: 0; transform: none; }
+        .frise .maintenant.droite::after { left: auto; right: 0; transform: none; }
+        @media (prefers-color-scheme: dark) {
+            .frise .creneau { background: var(--secondary); }
+            .frise .maintenant { background: white; box-shadow: none; }
+            .frise .maintenant::after { color: white; }
+        }
+        .frise-heures {
+            position: relative;
+            height: 1.4rem;
+            font-size: 0.82rem;
+            color: var(--texte-doux);
+        }
+        .frise-heures span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
 
-        .btn-secondary:hover {
-            background: #ffd666;
-            transform: translateY(-2px);
+        .actions {
+            margin-top: auto;
+            padding-top: 1.6rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.7rem;
         }
+        .action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.9rem 0.4rem;
+            border-radius: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.98rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .action svg { width: 26px; height: 26px; }
+        .action:hover { transform: translateY(-2px); }
+        .action-appel { background: var(--accent); color: white; }
+        .action-route { background: var(--secondary); color: var(--navy); }
+        .action-idee { background: var(--primary); color: white; }
 
-        section {
-            padding: 5rem 0;
-        }
-
-        section:nth-child(even) {
-            background: var(--light);
-        }
+        /* ===== Sections ===== */
+        section { padding: 3.2rem 0; }
+        .fond-2 { background: var(--fond-2); }
 
         h2 {
-            /* taille qui s'adapte a la largeur de l'ecran (petit sur telephone, grand sur PC) */
-            font-size: clamp(1.4rem, 6.5vw, 2.5rem);
-            color: var(--primary);
-            margin-bottom: 3rem;
-            font-weight: 900;
-            letter-spacing: -0.5px;
+            font-size: clamp(1.7rem, 5.5vw, 2.5rem);
+            color: var(--titre);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1.8rem;
         }
-
-        /* Petit trait jaune sous chaque titre de section */
+        /* Trait jaune sous chaque titre de section */
         h2::after {
             content: "";
             display: block;
-            width: 70px;
+            width: 64px;
             height: 6px;
-            margin-top: 0.6rem;
+            margin-top: 0.55rem;
             border-radius: 3px;
             background: var(--secondary);
         }
 
-        /* Galerie Images */
-        .gallery {
+        .carte {
+            background: var(--carte);
+            border: 1px solid var(--trait);
+            border-radius: var(--rayon);
+            box-shadow: var(--ombre);
+        }
+
+        /* Horaires : une ligne par groupe de jours, avec sa mini-frise */
+        .semaine { overflow: hidden; }
+        .ligne {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: 11rem 1fr auto;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.1rem 1.5rem;
         }
-
-        .gallery-item {
+        .ligne + .ligne { border-top: 1px solid var(--trait); }
+        .ligne strong { font-weight: 700; font-size: 1.1rem; }
+        .ligne .texte-h { text-align: right; font-weight: 500; white-space: nowrap; }
+        .ferme-txt { color: #c62828; font-weight: 600; }
+        @media (prefers-color-scheme: dark) { .ferme-txt { color: #ff8a8a; } }
+        .mini {
             position: relative;
-            overflow: hidden;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            height: 350px;
-            background: var(--light);
-            transition: all 0.3s;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--frise-vide);
+        }
+        .mini i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--primary); }
+        /* Echelle 6h - 20h30 : matin 7h-12h30, apres-midi 14h30-19h30 */
+        .mini .m { left: 6.9%; width: 37.93%; }
+        .mini .a { left: 58.62%; width: 34.48%; }
+        @media (prefers-color-scheme: dark) {
+            .mini i { background: var(--secondary); }
+            .ligne.aujourdhui { background: rgba(255,255,255,0.10) !important; box-shadow: inset 5px 0 0 var(--secondary); }
+        }
+        .ligne.aujourdhui { background: rgba(255,201,60,0.22); }
+        .ligne.aujourdhui strong::after {
+            content: "Aujourd'hui";
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.6rem;
+            padding: 0.05rem 0.6rem;
+            border-radius: 999px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 600;
         }
 
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        /* Photos et produits : on fait glisser du doigt sur telephone */
+        .glisse {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
         }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        /* Leger zoom sur la photo au passage de la souris */
-        .gallery-item:hover img { transform: scale(1.06); }
-
-        /* Legende sur les photos */
+        .gallery-item { position: relative; overflow: hidden; border-radius: var(--rayon); height: 300px; background: var(--fond-2); }
+        .gallery-item picture, .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         .gallery-item figcaption {
             position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
-            padding: 2.5rem 1.2rem 1rem;
-            background: linear-gradient(180deg, rgba(29,53,87,0) 0%, rgba(29,53,87,0.85) 100%);
+            padding: 2.2rem 1.1rem 0.9rem;
+            background: linear-gradient(180deg, rgba(29,53,87,0) 0%, rgba(29,53,87,0.88) 100%);
             color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
         }
 
-        /* Horaires */
-        .horaires-banner {
-            background: white;
-            border-left: 5px solid var(--secondary);
-            border-right: 5px solid var(--secondary);
-            padding: 2rem;
-            margin-bottom: 3rem;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
+        .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.2rem; }
+        .about-text { padding: 1.8rem; }
+        .about-text h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .about-text p { margin-bottom: 1rem; line-height: 1.8; color: var(--texte-doux); max-width: 62ch; }
+        .about-box { padding: 1.8rem; border-top: 6px solid var(--secondary); }
+        .about-box h3 { font-size: 1.2rem; font-weight: 700; }
+        .about-list { list-style: none; margin-top: 1rem; }
+        .about-list li { padding: 0.55rem 0; border-top: 1px solid var(--trait); font-weight: 500; }
 
-        .horaires-banner h3 {
-            color: var(--primary);
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            font-weight: 900;
-        }
-
-        .horaires-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .horaire-item {
-            padding: 1.5rem;
-            background: var(--light);
-            border-radius: 10px;
-            border-top: 3px solid var(--secondary);
-        }
-
-        .horaire-item strong {
-            color: var(--primary);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.05rem;
-        }
-
-        /* À Propos */
-        /* Texte a gauche, encadre a droite (l'un sous l'autre sur telephone) */
-        .about {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-box {
-            background: white;
-            padding: 2rem;
-            border-radius: 14px;
-            border-top: 6px solid var(--secondary);
-            box-shadow: 0 4px 14px rgba(29,53,87,0.08);
-        }
-
-        .about-box h3 {
-            color: var(--navy);
-            font-size: 1.2rem;
-            font-weight: 900;
-        }
-
-        .about-box .about-list { margin-top: 1.2rem; }
-        .about-box .about-list li:last-child { margin-bottom: 0; }
-
-        .about-text h3 {
-            font-size: clamp(1.2rem, 5vw, 1.8rem);
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-weight: 900;
-        }
-
-        .about-text p {
-            margin-bottom: 1.2rem;
-            line-height: 1.9;
-            color: #333;
-        }
-
-        .about-list {
-            list-style: none;
-            margin-top: 2rem;
-        }
-
-        .about-list li {
-            padding-left: 2rem;
-            margin-bottom: 1rem;
-            position: relative;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .about-list li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .about-image {
-            border-radius: 8px;
-            overflow: hidden;
-            height: 350px;
-            background: linear-gradient(135deg, var(--light), white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed var(--border);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Produits */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background-color: var(--navy);
-            background-size: cover;
-            background-position: center;
-            padding: 1.5rem 1.5rem 1.8rem;
-            min-height: 260px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            border-radius: 14px;
-            text-align: center;
-            transition: all 0.3s;
-            border-top: 6px solid var(--primary);
-            box-shadow: 0 4px 14px rgba(29,53,87,0.08);
-            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-        }
-
-        /* Photo de fond de chaque carte, assombrie pour que le texte reste lisible */
-        /* (photo bien visible en haut, bas assombri sous le texte) */
-        .product-card { --voile: linear-gradient(180deg, rgba(29,53,87,0.05) 0%, rgba(29,53,87,0.45) 35%, rgba(29,53,87,0.92) 62%, rgba(29,53,87,0.95) 100%); }
-        .p-presse      { background-image: var(--voile), url('produit-presse.jpg'); }
-        .p-jeux        { background-image: var(--voile), url('produit-jeux.jpg'); }
-        .p-confiseries { background-image: var(--voile), url('produit-confiseries.jpg'); }
-        .p-divers      { background-image: var(--voile), url('produit-divers.jpg'); }
+        .product-card { overflow: hidden; }
+        .produit-photo { aspect-ratio: 16 / 10; background-color: var(--navy); background-size: cover; background-position: center; }
+        /* Photo en WebP (plus legere), JPG si le navigateur est ancien */
+        .p-presse      { background-image: url('produit-presse.jpg');      background-image: image-set(url('produit-presse.webp') type('image/webp'), url('produit-presse.jpg') type('image/jpeg')); }
+        .p-jeux        { background-image: url('produit-jeux.jpg');        background-image: image-set(url('produit-jeux.webp') type('image/webp'), url('produit-jeux.jpg') type('image/jpeg')); }
+        .p-confiseries { background-image: url('produit-confiseries.jpg'); background-image: image-set(url('produit-confiseries.webp') type('image/webp'), url('produit-confiseries.jpg') type('image/jpeg')); }
+        .p-divers      { background-image: url('produit-divers.jpg');      background-image: image-set(url('produit-divers.webp') type('image/webp'), url('produit-divers.jpg') type('image/jpeg')); }
         /* Tabac et accessoires : aucun produit du tabac montre (loi Evin) :
            l'enseigne de la boutique et un simple briquet */
-        .p-tabac       { background-image: var(--voile), url('produit-tabac.jpg'); }
-        .p-accessoires { background-image: var(--voile), url('produit-accessoires.jpg'); }
-
-        /* Une couleur differente par carte : turquoise, jaune, rose */
-        .product-card:nth-child(3n+2) { border-top-color: var(--secondary); }
-        .product-card:nth-child(3n) { border-top-color: var(--accent); }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,117,119,0.18);
-        }
-
-        .product-card h3 {
-            color: var(--secondary);
-            margin-bottom: 0.8rem;
-            font-weight: 900;
-            font-size: 1.3rem;
-        }
-
-        .product-card p {
-            color: white;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            font-weight: 500;
-        }
+        .p-tabac       { background-image: url('produit-tabac.jpg');       background-image: image-set(url('produit-tabac.webp') type('image/webp'), url('produit-tabac.jpg') type('image/jpeg')); }
+        .p-accessoires { background-image: url('produit-accessoires.jpg'); background-image: image-set(url('produit-accessoires.webp') type('image/webp'), url('produit-accessoires.jpg') type('image/jpeg')); }
+        .produit-texte { padding: 1.1rem 1.3rem 1.3rem; }
+        .product-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--titre); margin-bottom: 0.25rem; }
+        .product-card p { color: var(--texte-doux); }
 
         .mentions {
-            margin-top: 2.5rem;
-            padding: 1.2rem 1.5rem;
-            background: white;
-            border-left: 5px solid var(--accent);
-            border-radius: 10px;
+            margin-top: 1.4rem;
+            padding: 1.1rem 1.4rem;
+            border-left: 6px solid var(--accent);
             font-size: 0.95rem;
-            color: #333;
         }
 
-        /* Contact */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+        /* Formulaire de suggestions (envoi vers Google Forms) */
+        .suggest-intro { max-width: 640px; margin: -0.6rem 0 1.5rem; font-size: 1.1rem; color: var(--texte-doux); }
+        .suggest-form, .suggest-merci {
+            max-width: 680px;
+            background: var(--carte);
+            border: 1px solid var(--trait);
+            border-top: 6px solid var(--secondary);
+            border-radius: var(--rayon);
+            box-shadow: var(--ombre);
+            padding: 1.8rem;
         }
-
-        .contact-box {
-            background: white;
-            padding: 2.5rem;
+        .suggest-form label { display: block; font-weight: 600; color: var(--titre); margin: 0 0 0.4rem; }
+        .suggest-form input, .suggest-form select, .suggest-form textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 1.3rem;
+            padding: 0.85rem 1rem;
+            font: inherit;
+            color: var(--texte);
+            background: var(--champ);
+            border: 2px solid var(--trait);
             border-radius: 14px;
-            border-left: 5px solid var(--secondary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .suggest-form select option { color: #222; background: #fff; }
+        .suggest-form textarea { resize: vertical; }
+        .suggest-form .sg-piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+        .suggest-form input:focus, .suggest-form select:focus, .suggest-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .requis { color: var(--accent); }
+        .facultatif { color: var(--texte-doux); font-weight: 400; font-size: 0.9rem; }
+        .suggest-note { margin-top: 1rem; font-size: 0.88rem; color: var(--texte-doux); }
+        .suggest-merci h3 { color: var(--titre); font-size: 1.4rem; margin-bottom: 0.4rem; }
+        .suggest-erreur { max-width: 680px; margin-top: 1rem; color: var(--accent); font-weight: 600; }
+        .suggest-erreur a { color: inherit; }
+
+        .btn {
+            display: inline-block;
+            padding: 0.95rem 2.2rem;
+            font: inherit;
+            font-weight: 600;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn:disabled { opacity: 0.6; cursor: wait; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: #c22d57; transform: translateY(-2px); }
+        .btn-secondary { background: var(--secondary); color: var(--navy); }
+        .btn-secondary:hover { background: #ffd666; transform: translateY(-2px); }
+
+        /* Contact : une liste comme dans une appli */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 1.2rem; align-items: start; }
+        .liste-contact { list-style: none; overflow: hidden; }
+        .contact-box {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 1rem;
+            align-items: start;
+            padding: 1.2rem 1.4rem;
             overflow-wrap: anywhere; /* coupe l'adresse e-mail si l'ecran est trop etroit */
         }
-
-        .contact-box h3 {
+        .contact-box + .contact-box { border-top: 1px solid var(--trait); }
+        .rond {
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--fond-2);
             color: var(--primary);
-            margin-bottom: 1.2rem;
-            font-weight: 900;
-            font-size: 1.3rem;
         }
-
-        .contact-box p {
-            line-height: 1.9;
-            color: #333;
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-        }
-
+        @media (prefers-color-scheme: dark) { .rond { color: var(--secondary); background: rgba(255,255,255,0.08); } }
+        .rond svg { width: 22px; height: 22px; }
+        .contact-box h3 { font-size: 1.05rem; font-weight: 700; color: var(--titre); margin-bottom: 0.2rem; }
+        .contact-box p { color: var(--texte-doux); }
+        .contact-box .petit { font-size: 0.92rem; margin-top: 0.3rem; }
         .contact-box a {
-            color: var(--primary);
+            color: var(--texte);
             text-decoration: underline;
             text-decoration-color: var(--secondary);
             text-decoration-thickness: 3px;
             text-underline-offset: 4px;
-            font-weight: 900;
-            font-size: 1.1rem;
-        }
-
-        .contact-box a:hover {
-            color: var(--accent);
-        }
-
-        .map-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .map-section h3 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-weight: 900;
-        }
-
-        .map-iframe {
-            width: 100%;
-            height: 450px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-        }
-
-        /* Formulaire de suggestions (aux couleurs du site, envoi vers Google Forms) */
-        .suggest-intro {
-            max-width: 680px;
-            margin: -1.5rem auto 2rem;
-            font-size: 1.1rem;
-        }
-        .suggest-form, .suggest-merci {
-            max-width: 680px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 14px;
-            border-top: 6px solid var(--secondary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            padding: 2rem;
-        }
-        .suggest-form label {
-            display: block;
             font-weight: 700;
-            color: var(--primary);
-            margin: 0 0 0.4rem;
+            font-size: 1.08rem;
         }
-        .suggest-form input, .suggest-form select, .suggest-form textarea {
-            display: block;
-            width: 100%;
-            margin-bottom: 1.4rem;
-            padding: 0.8rem 1rem;
-            font: inherit;
-            color: var(--dark);
-            background: var(--cream);
-            border: 2px solid var(--border);
-            border-radius: 10px;
+        .contact-box a:hover { color: var(--accent); }
+
+        /* Carte : chargee seulement si on clique (plus rapide, rien envoye a Google avant) */
+        .map-section { overflow: hidden; }
+        .map-section h3 { font-weight: 700; color: var(--titre); padding: 1.2rem 1.4rem 0.9rem; }
+        .carte-attente {
+            display: grid;
+            place-items: center;
+            gap: 1rem;
+            height: 330px;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+            background:
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 34px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 34px),
+                var(--primary);
         }
-        .suggest-form textarea { resize: vertical; }
-        .suggest-form button { font-family: inherit; font-weight: 700; }
-        .suggest-form button:disabled { opacity: 0.6; cursor: wait; }
-        .suggest-form .sg-piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }        .suggest-form input:focus, .suggest-form select:focus, .suggest-form textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
-        .requis { color: var(--accent); }
-        .facultatif { color: #666; font-weight: 400; font-size: 0.9rem; }
-        .suggest-note { margin-top: 1rem; font-size: 0.85rem; color: #666; }
-        .suggest-merci { text-align: center; }
-        .suggest-merci h3 { color: var(--primary); font-size: 1.4rem; margin-bottom: 0.5rem; }
-        .suggest-erreur {
-            max-width: 680px;
-            margin: 1rem auto 0;
-            color: var(--accent);
-            font-weight: 700;
-        }
-        .suggest-erreur a { color: var(--navy); }
-        @media (max-width: 480px) {
-            .suggest-form, .suggest-merci { padding: 1.4rem; }
-        }
+        .carte-attente p { font-weight: 600; }
+        .map-iframe { display: block; width: 100%; height: 380px; border: 0; }
 
         footer {
             background: var(--navy);
             color: white;
-            padding: 2.5rem;
+            padding: 2.6rem 1.5rem;
             text-align: center;
-            margin-top: 3rem;
-            border-top: 4px solid var(--secondary);
+            border-top: 5px solid var(--secondary);
         }
-
-        footer p {
-            margin: 0.7rem 0;
-            font-weight: 500;
-        }
-
-        .credits {
-            font-size: 0.75rem;
-            opacity: 0.75;
-            max-width: 700px;
-            margin: 1rem auto 0 !important;
-        }
+        @media (prefers-color-scheme: dark) { footer { background: rgba(0,0,0,0.25); } }
+        footer strong { display: block; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.3rem; }
+        footer p { margin: 0.4rem auto; max-width: 760px; }
+        footer .loi { margin-top: 1rem; font-size: 0.9rem; opacity: 0.95; }
+        footer .copy { font-size: 0.9rem; opacity: 0.85; }
+        .credits { font-size: 0.75rem; opacity: 0.78; max-width: 700px; margin: 1rem auto 0 !important; }
         .credits a { color: white; }
 
-        footer strong {
-            display: block;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
+        /* ===== Barre de boutons en bas (telephone) ===== */
+        .barre-bas { display: none; }
 
-        html { scroll-behavior: smooth; }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+        @media (prefers-color-scheme: dark) { a:focus-visible, button:focus-visible { outline-color: var(--secondary); } }
 
-        /* Contour visible quand on navigue au clavier (touche Tab) */
-        a:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        /* Lien "Aller au contenu" : cache, apparait seulement avec la touche Tab */
         .skip-link {
             position: absolute;
             left: 1rem;
@@ -628,196 +574,224 @@
             background: var(--secondary);
             color: var(--navy);
             padding: 0.6rem 1rem;
-            font-weight: bold;
-            border-radius: 4px;
+            font-weight: 700;
+            border-radius: 8px;
             z-index: 2000;
         }
         .skip-link:focus { top: 1rem; }
 
-        /* Pas d'animations pour ceux qui les ont desactivees */
+        /* Les cartes glissent doucement en place au defilement (CSS seul) */
+        @media (prefers-reduced-motion: no-preference) {
+            @supports (animation-timeline: view()) {
+                .revele {
+                    animation: monte linear both;
+                    animation-timeline: view();
+                    animation-range: entry 0% entry 70%;
+                }
+            }
+        }
+        @keyframes monte { from { opacity: 0.25; transform: translateY(24px); } }
+
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             * { transition: none !important; }
-            .btn:hover, .gallery-item:hover, .product-card:hover, .gallery-item:hover img { transform: none; }
+            .btn:hover, .action:hover { transform: none; }
         }
 
-        /* Badge ouvert / ferme */
-        .statut {
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            margin-right: 0.8rem;
-            border-radius: 20px;
-            font-weight: 700;
-            background: #555;
+        @media (max-width: 900px) {
+            .accueil { grid-template-columns: 1fr; }
+            .carte-photo { min-height: 340px; }
+            .about, .contact-grid { grid-template-columns: 1fr; }
+            .ligne { grid-template-columns: 1fr auto; }
+            .ligne .mini { grid-column: 1 / -1; grid-row: 2; }
         }
-        .statut.ouvert { background: #157a32; }
-        .statut.ferme { background: #c62828; }
-
-        /* Jour actuel dans les horaires */
-        .horaire-item.aujourdhui {
-            background: white;
-            border: 2px solid var(--secondary);
-            border-top-width: 5px;
-            box-shadow: 0 4px 12px rgba(255,201,60,0.4);
-        }
-        .horaire-item.aujourdhui strong::after {
-            content: " (aujourd'hui)";
-            color: var(--accent);
-            font-size: 0.9rem;
-        }
-
-        /* Bouton Appeler fixe sur telephone */
-        .appel-mobile { display: none; }
 
         @media (max-width: 768px) {
-            header { padding: 0.4rem 0 0; }
-            nav { flex-direction: column; gap: 0; padding: 0 0.5rem; }
-            .logo { font-size: 1.3rem; line-height: 1.3; }
-            /* Liens du menu : sur une seule ligne, assez grands pour le doigt,
-               on fait glisser la ligne si l'ecran est trop petit */
-            .menu {
-                display: flex;
-                width: 100%;
-                overflow-x: auto;
-                scrollbar-width: none;
-            }
-            .menu a:first-child { margin-left: auto; }
-            .menu a:last-child { margin-right: auto; }
-            nav a {
-                margin: 0;
-                padding: 0.7rem 0.4rem;
-                font-size: 0.88rem;
-                white-space: nowrap;
-            }
-            section[id] { scroll-margin-top: 85px; }
-            /* Horaires sur 2 colonnes pour prendre moins de place */
-            .horaires-banner { padding: 1.2rem 1rem; }
-            .horaires-banner h3 { font-size: 1.1rem; margin-bottom: 1rem; }
-            .horaires-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
-            .horaire-item { padding: 0.9rem 0.8rem; }
-            .horaire-item strong { font-size: 0.95rem; }
-            .horaire-item.aujourdhui strong::after { display: block; }
-            .contact-box { padding: 1.8rem 1.5rem; }
-            .product-card { min-height: 210px; }
-            .header-top { font-size: 0.85rem; padding: 0.7rem 1rem; }
-            .statut { display: block; width: fit-content; margin: 0 auto 0.4rem; }
-            .hero { min-height: 380px; padding: 4rem 1rem; }
-            .hero h1 { font-size: 2.2rem; }
-            .vague { height: 36px; }
-            h2 { margin-bottom: 2rem; }
-            section { padding: 3rem 0; }
+            :root { --barre-bas: calc(68px + env(safe-area-inset-bottom)); --rayon: 20px; }
             .container { padding: 0 1rem; }
-            .hero-buttons { flex-direction: column; width: 100%; }
-            .btn { width: 100%; }
-            .map-iframe { height: 320px; }
-            body { padding-bottom: 4.5rem; }
-            .appel-mobile {
-                display: block;
+            .barre { padding: 0.55rem 1rem; }
+            .logo { font-size: 1.3rem; }
+            .menu-haut { display: none; }
+            .horaires-ligne { font-size: 0.82rem; }
+            section[id] { scroll-margin-top: 96px; }
+            .accueil { padding-top: 1rem; gap: 0.9rem; }
+            .carte-photo { min-height: 300px; padding: 1.3rem; }
+            .carte-jour { padding: 1.4rem; }
+            section { padding: 2.4rem 0; }
+            .ligne { padding: 0.95rem 1.1rem; gap: 0.5rem 1rem; }
+            .ligne .texte-h { font-size: 0.95rem; }
+            .ligne strong { font-size: 1.02rem; }
+            /* Photos et produits : rangee qu'on fait glisser du doigt */
+            .glisse {
+                display: flex;
+                gap: 0.8rem;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+                margin: 0 -1rem;
+                padding: 0 1rem 0.4rem;
+                scroll-padding: 0 1rem;
+            }
+            .glisse > * { flex: 0 0 82%; scroll-snap-align: start; }
+            .gallery-item { height: 240px; }
+            .about-text, .about-box { padding: 1.4rem; }
+            .suggest-form, .suggest-merci { padding: 1.3rem; }
+            .suggest-form .btn { width: 100%; }
+            .carte-attente { height: 260px; }
+            .map-iframe { height: 300px; }
+
+            .barre-bas {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
                 position: fixed;
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
-                background: var(--accent);
-                color: white;
-                text-align: center;
-                padding: 0.9rem;
-                border-radius: 999px;
-                font-weight: 700;
-                text-decoration: none;
-                box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+                left: 0;
+                right: 0;
+                bottom: 0;
                 z-index: 100;
-                transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
+                padding: 0.35rem 0.4rem calc(0.35rem + env(safe-area-inset-bottom));
+                background: rgba(255,253,246,0.94);
+                -webkit-backdrop-filter: blur(14px);
+                backdrop-filter: blur(14px);
+                border-top: 1px solid var(--trait);
             }
-            /* Cache tant que le grand bouton Appeler du haut est visible */
-            .appel-mobile.cache {
-                transform: translateY(150%);
-                opacity: 0;
-                visibility: hidden;
+            @media (prefers-color-scheme: dark) { .barre-bas { background: rgba(29,53,87,0.94); } }
+            .barre-bas a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.1rem;
+                padding: 0.3rem 0;
+                border-radius: 14px;
+                color: var(--texte);
+                text-decoration: none;
+                font-size: 0.74rem;
+                font-weight: 600;
             }
+            .barre-bas svg { width: 24px; height: 24px; }
+            .barre-bas .appel { background: var(--accent); color: white; }
+        }
+
+        /* Petits telephones : nom du jour, horaires, puis la mini-frise, l'un sous l'autre */
+        @media (max-width: 480px) {
+            .ligne { grid-template-columns: 1fr; gap: 0.35rem; }
+            .ligne .texte-h { text-align: left; white-space: normal; }
+            .ligne .mini { grid-row: 3; }
+        }
+        /* Tres petits telephones : la pastille Ouvert/Ferme peut passer sur 2 lignes */
+        @media (max-width: 400px) {
+            .barre { gap: 0.6rem; }
+            .logo { font-size: 1.15rem; }
+            .statut { white-space: normal; text-align: center; font-size: 0.84rem; line-height: 1.3; }
         }
     </style>
 </head>
 <body>
     <a href="#contenu" class="skip-link">Aller au contenu</a>
-    <div class="header-top">
-        <span id="statut" class="statut"></span>
-        Lun-Mer &amp; Ven-Sam 7h-12h30 | 14h30-19h30 &middot; Jeudi &amp; Dim matin 7h-12h30
-    </div>
 
-    <header>
-        <nav aria-label="Menu principal">
-            <div class="logo">Le Chiquito</div>
-            <div class="menu">
+    <div class="header-top">
+        <div class="barre">
+            <a class="logo" href="#contenu">Le Chiquito</a>
+            <nav class="menu-haut" aria-label="Menu principal">
                 <a href="#horaires">Horaires</a>
                 <a href="#photos">Photos</a>
                 <a href="#about">À Propos</a>
                 <a href="#products">Produits</a>
                 <a href="#contact">Contact</a>
-            </div>
-        </nav>
-    </header>
+            </nav>
+            <span id="statut" class="statut"></span>
+        </div>
+        <p class="horaires-ligne">Lun-Mer &amp; Ven-Sam 7h-12h30 | 14h30-19h30 &middot; Jeudi &amp; Dim matin 7h-12h30</p>
+    </div>
 
     <main id="contenu">
-    <section class="hero">
-        <h1>Le Chiquito</h1>
-        <p>Votre petit commerce de confiance à Arès</p>
-        <p style="font-size: 1.1rem; opacity: 0.9;">Tabac • Presse • Jeux • Articles pratiques</p>
-        <div class="hero-buttons">
-            <a href="tel:0611090390" class="btn btn-primary">Appeler : 06 11 09 03 90</a>
-            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener" class="btn btn-secondary">Itinéraire</a>
+    <section class="hero accueil container" aria-label="Le Chiquito aujourd'hui">
+        <div class="carte-photo">
+            <picture>
+                <source type="image/webp" srcset="facade.webp">
+                <img src="facade.jpg" width="1320" height="983" alt="" fetchpriority="high">
+            </picture>
+            <h1>Le Chiquito</h1>
+            <p class="sous">Votre petit commerce de confiance à Arès</p>
+            <ul class="tags" aria-label="Ce que vous trouverez">
+                <li>Tabac</li><li>Presse</li><li>Jeux</li><li>Articles pratiques</li>
+            </ul>
         </div>
-        <svg class="vague" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-            <path style="fill: var(--secondary); opacity: 0.9;" d="M0,70 C240,20 480,20 720,60 C960,100 1200,100 1440,50 L1440,120 L0,120 Z"></path>
-            <path style="fill: var(--light);" d="M0,90 C240,45 480,45 720,80 C960,115 1200,115 1440,75 L1440,120 L0,120 Z"></path>
-        </svg>
+
+        <div class="carte-jour">
+            <p class="jour-nom" id="jour-nom">Aujourd'hui</p>
+            <p class="jour-grand" id="jour-grand">Ouvert dès 7h</p>
+            <p class="jour-petit" id="jour-petit">7h00 - 12h30 et 14h30 - 19h30</p>
+            <div class="frise" id="frise" aria-hidden="true"></div>
+            <div class="frise-heures" id="frise-heures" aria-hidden="true"></div>
+            <div class="actions">
+                <a class="action action-appel" href="tel:0611090390" aria-label="Appeler le 06 11 09 03 90">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+                    Appeler
+                </a>
+                <a class="action action-route" href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Itinéraire
+                </a>
+                <a class="action action-idee" href="#suggestions">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+                    Une idée ?
+                </a>
+            </div>
+        </div>
     </section>
 
     <section id="horaires">
         <div class="container">
             <h2>Horaires d'Ouverture</h2>
-            <div class="horaires-banner">
-                <h3>Quand sommes-nous ouverts&nbsp;?</h3>
-                <div class="horaires-grid">
-                    <div class="horaire-item" data-jours="1,2,3">
-                        <strong>Lundi - Mercredi</strong>
-                        <p>7h00 - 12h30</p>
-                        <p>14h30 - 19h30</p>
-                    </div>
-                    <div class="horaire-item" data-jours="4">
-                        <strong>Jeudi</strong>
-                        <p>7h00 - 12h30</p>
-                        <p style="color: #c62828; font-weight: bold;">Fermé l'après-midi</p>
-                    </div>
-                    <div class="horaire-item" data-jours="5,6">
-                        <strong>Vendredi - Samedi</strong>
-                        <p>7h00 - 12h30</p>
-                        <p>14h30 - 19h30</p>
-                    </div>
-                    <div class="horaire-item" data-jours="0">
-                        <strong>Dimanche</strong>
-                        <p>7h00 - 12h30</p>
-                        <p style="color: #c62828; font-weight: bold;">Fermé l'après-midi</p>
-                    </div>
+            <div class="carte semaine" aria-label="Quand sommes-nous ouverts ?">
+                <div class="ligne horaire-item" data-jours="1,2,3">
+                    <strong>Lundi - Mercredi</strong>
+                    <div class="mini" aria-hidden="true"><i class="m"></i><i class="a"></i></div>
+                    <span class="texte-h">7h00 - 12h30 · 14h30 - 19h30</span>
+                </div>
+                <div class="ligne horaire-item" data-jours="4">
+                    <strong>Jeudi</strong>
+                    <div class="mini" aria-hidden="true"><i class="m"></i></div>
+                    <span class="texte-h">7h00 - 12h30 · <span class="ferme-txt">Fermé l'après-midi</span></span>
+                </div>
+                <div class="ligne horaire-item" data-jours="5,6">
+                    <strong>Vendredi - Samedi</strong>
+                    <div class="mini" aria-hidden="true"><i class="m"></i><i class="a"></i></div>
+                    <span class="texte-h">7h00 - 12h30 · 14h30 - 19h30</span>
+                </div>
+                <div class="ligne horaire-item" data-jours="0">
+                    <strong>Dimanche</strong>
+                    <div class="mini" aria-hidden="true"><i class="m"></i></div>
+                    <span class="texte-h">7h00 - 12h30 · <span class="ferme-txt">Fermé l'après-midi</span></span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Galerie Photos -->
-    <section id="photos">
+    <section id="photos" class="fond-2">
         <div class="container">
             <h2>Découvrez Le Chiquito</h2>
-            <div class="gallery">
-                <figure class="gallery-item">
-                    <img src="facade.jpg" width="1320" height="983" alt="Façade du Chiquito à Arès" loading="lazy">
+            <div class="glisse">
+                <figure class="gallery-item revele">
+                    <picture>
+                        <source type="image/webp" srcset="facade.webp">
+                        <img src="facade.jpg" width="1320" height="983" alt="Façade du Chiquito à Arès" loading="lazy">
+                    </picture>
                     <figcaption>La boutique, rue du 14 Juillet</figcaption>
                 </figure>
-                <figure class="gallery-item">
-                    <img src="interieur_magasin.jpg" width="900" height="900" alt="Intérieur du magasin" loading="lazy">
+                <figure class="gallery-item revele">
+                    <picture>
+                        <source type="image/webp" srcset="interieur_magasin.webp">
+                        <img src="interieur_magasin.jpg" width="900" height="900" alt="Intérieur du magasin" loading="lazy">
+                    </picture>
                     <figcaption>À l'intérieur</figcaption>
                 </figure>
-                <figure class="gallery-item">
-                    <img src="bassin.jpg" width="1245" height="991" alt="Le bassin d'Arcachon, à deux pas" loading="lazy">
+                <figure class="gallery-item revele">
+                    <picture>
+                        <source type="image/webp" srcset="bassin.webp">
+                        <img src="bassin.jpg" width="1245" height="991" alt="Le bassin d'Arcachon, à deux pas" loading="lazy">
+                    </picture>
                     <figcaption>Le bassin d'Arcachon, à deux pas</figcaption>
                 </figure>
             </div>
@@ -828,13 +802,13 @@
         <div class="container">
             <h2>À Propos</h2>
             <div class="about">
-                <div class="about-text">
+                <div class="carte about-text">
                     <h3>Votre petit coin du quartier</h3>
                     <p>Depuis des années, Le Chiquito est l'endroit où tout le monde se croise à Arès. Un vrai petit commerce de quartier, chaleureux et accueillant.</p>
                     <p>Ici, pas de grandes surfaces froides. Juste une équipe qui vous écoute, vous conseille, et prend le temps de discuter avec vous&nbsp;!</p>
                     <p>Tabacs, presse, jeux FDJ, petits articles utiles... Tout ce qu'il vous faut en un seul endroit&nbsp;!</p>
                 </div>
-                <div class="about-box">
+                <div class="carte about-box">
                     <h3>Chez nous, vous trouverez</h3>
                     <ul class="about-list">
                         <li>Tabac et accessoires</li>
@@ -848,36 +822,36 @@
         </div>
     </section>
 
-    <section id="products">
+    <section id="products" class="fond-2">
         <div class="container">
             <h2>Nos Produits</h2>
-            <div class="products">
-                <div class="product-card p-tabac">
-                    <h3>Tabacs</h3>
-                    <p>Vente de tabac.</p>
-                </div>
-                <div class="product-card p-presse">
-                    <h3>Presse & Magazines</h3>
-                    <p>Le journal du jour, vos magazines favoris, BD complètes.</p>
-                </div>
-                <div class="product-card p-jeux">
-                    <h3>Jeux FDJ</h3>
-                    <p>Jeux à gratter, loto, paris sportifs.</p>
-                </div>
-                <div class="product-card p-accessoires">
-                    <h3>Accessoires</h3>
-                    <p>Briquets, cendriers, pipes.</p>
-                </div>
-                <div class="product-card p-confiseries">
-                    <h3>Confiseries</h3>
-                    <p>Bonbons, chocolats, gâteaux. Un petit plaisir du jour&nbsp;!</p>
-                </div>
-                <div class="product-card p-divers">
-                    <h3>Articles Divers</h3>
-                    <p>Mercerie, piles, cartes postales, et bien d'autres surprises.</p>
-                </div>
+            <div class="glisse">
+                <article class="carte product-card revele">
+                    <div class="produit-photo p-tabac" aria-hidden="true"></div>
+                    <div class="produit-texte"><h3>Tabacs</h3><p>Vente de tabac.</p></div>
+                </article>
+                <article class="carte product-card revele">
+                    <div class="produit-photo p-presse" aria-hidden="true"></div>
+                    <div class="produit-texte"><h3>Presse &amp; Magazines</h3><p>Le journal du jour, vos magazines favoris, BD complètes.</p></div>
+                </article>
+                <article class="carte product-card revele">
+                    <div class="produit-photo p-jeux" aria-hidden="true"></div>
+                    <div class="produit-texte"><h3>Jeux FDJ</h3><p>Jeux à gratter, loto, paris sportifs.</p></div>
+                </article>
+                <article class="carte product-card revele">
+                    <div class="produit-photo p-accessoires" aria-hidden="true"></div>
+                    <div class="produit-texte"><h3>Accessoires</h3><p>Briquets, cendriers, pipes.</p></div>
+                </article>
+                <article class="carte product-card revele">
+                    <div class="produit-photo p-confiseries" aria-hidden="true"></div>
+                    <div class="produit-texte"><h3>Confiseries</h3><p>Bonbons, chocolats, gâteaux. Un petit plaisir du jour&nbsp;!</p></div>
+                </article>
+                <article class="carte product-card revele">
+                    <div class="produit-photo p-divers" aria-hidden="true"></div>
+                    <div class="produit-texte"><h3>Articles Divers</h3><p>Mercerie, piles, cartes postales, et bien d'autres surprises.</p></div>
+                </article>
             </div>
-            <div class="mentions">
+            <div class="carte mentions">
                 <p><strong>Vente de tabac et jeux d'argent interdite aux mineurs.</strong></p>
                 <p>Jouer comporte des risques : endettement, isolement, dépendance. Pour être aidé, appelez le 09 74 75 13 13 (appel non surtaxé).</p>
             </div>
@@ -923,33 +897,50 @@
         </div>
     </section>
 
-    <section id="contact">
+    <section id="contact" class="fond-2">
         <div class="container">
-            <h2>Nous Contacter & Nous Localiser</h2>
+            <h2>Nous Contacter &amp; Nous Localiser</h2>
             <div class="contact-grid">
-                <div class="contact-box">
-                    <h3>Adresse</h3>
-                    <p><strong>Le Chiquito</strong></p>
-                    <p>6 bis rue du 14 juillet</p>
-                    <p>33740 Arès</p>
-                    <p style="margin-top: 1rem; color: #666;">Gironde, France</p>
-                    <p><a href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener">Itinéraire &rarr;</a></p>
-                </div>
-                <div class="contact-box">
-                    <h3>Téléphoner</h3>
-                    <p><a href="tel:0611090390">06 11 09 03 90</a></p>
-                    <p style="margin-top: 1.5rem; color: #666; font-size: 0.95rem;">Appelez-nous pour toute question ou commande spéciale.</p>
-                </div>
-                <div class="contact-box">
-                    <h3>Email</h3>
-                    <p><a href="mailto:ledordogne.levince19@gmail.com">ledordogne.levince19@<wbr>gmail.com</a></p>
-                    <p style="margin-top: 1.5rem; color: #666; font-size: 0.95rem;">Écrivez-nous pour nous contacter directement.</p>
-                </div>
-            </div>
+                <ul class="carte liste-contact">
+                    <li class="contact-box">
+                        <span class="rond" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                        <div>
+                            <h3>Adresse</h3>
+                            <p><strong>Le Chiquito</strong></p>
+                            <p>6 bis rue du 14 juillet</p>
+                            <p>33740 Arès</p>
+                            <p class="petit">Gironde, France</p>
+                            <p class="petit"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener">Itinéraire</a></p>
+                        </div>
+                    </li>
+                    <li class="contact-box">
+                        <span class="rond" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+                        <div>
+                            <h3>Téléphoner</h3>
+                            <p><a href="tel:0611090390">06 11 09 03 90</a></p>
+                            <p class="petit">Appelez-nous pour toute question ou commande spéciale.</p>
+                        </div>
+                    </li>
+                    <li class="contact-box">
+                        <span class="rond" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+                        <div>
+                            <h3>Email</h3>
+                            <p><a href="mailto:ledordogne.levince19@gmail.com">ledordogne.levince19@<wbr>gmail.com</a></p>
+                            <p class="petit">Écrivez-nous pour nous contacter directement.</p>
+                        </div>
+                    </li>
+                </ul>
 
-            <div class="map-section">
-                <h3>Notre Localisation Exacte</h3>
-                <iframe class="map-iframe" title="Carte : Le Chiquito, 6 bis rue du 14 Juillet, Arès" src="https://maps.google.com/maps?q=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s&z=17&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="carte map-section">
+                    <h3>Notre Localisation Exacte</h3>
+                    <div class="carte-attente" id="carte">
+                        <div>
+                            <p>6 bis rue du 14 Juillet, 33740 Arès</p>
+                            <p style="font-weight: 400; opacity: 0.9; font-size: 0.95rem;">La carte Google s'affiche seulement si vous le demandez.</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="carte-btn">Afficher la carte</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -960,12 +951,19 @@
         <strong>Le Chiquito</strong>
         <p>6 bis rue du 14 juillet, 33740 Arès</p>
         <p>06 11 09 03 90</p>
-        <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">Vente de tabac et jeux d'argent interdite aux mineurs. Jouer comporte des risques : endettement, isolement, dépendance. Pour être aidé, appelez le 09 74 75 13 13 (appel non surtaxé).</p>
-        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">© 2026 Le Chiquito - Tous droits réservés</p>
+        <p class="loi">Vente de tabac et jeux d'argent interdite aux mineurs. Jouer comporte des risques : endettement, isolement, dépendance. Pour être aidé, appelez le 09 74 75 13 13 (appel non surtaxé).</p>
+        <p class="copy">© 2026 Le Chiquito - Tous droits réservés</p>
         <p class="credits">Photos des produits via Wikimedia Commons : kiosque par Benoît Prieur (CC0), briquet par Kimmo Palosaari (domaine public), bonbons par Jebulon (CC0), <a href="https://commons.wikimedia.org/wiki/File:Bingo_balls_in_bingo_drum.jpg" target="_blank" rel="noopener">boules de loto</a> par elizaIO (<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0</a>), cartes postales par Mutney (CC0). Photos recadrées et assombries.</p>
     </footer>
 
-    <a href="tel:0611090390" class="appel-mobile cache">Appeler : 06 11 09 03 90</a>
+    <!-- Barre de boutons en bas, sur telephone (comme une appli) -->
+    <nav class="barre-bas" aria-label="Raccourcis">
+        <a href="#horaires"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Horaires</a>
+        <a href="#products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Produits</a>
+        <a href="#suggestions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>Idée</a>
+        <a href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Contact</a>
+        <a href="tel:0611090390" class="appel" aria-label="Appeler le 06 11 09 03 90"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Appeler</a>
+    </nav>
 
     <script>
         // Suggestions : envoi en arriere-plan vers Google Forms, puis message de remerciement
@@ -1014,6 +1012,7 @@
         // Horaires : 0 = dimanche ... 6 = samedi, en minutes depuis minuit
         var MATIN = [420, 750];       // 7h00 - 12h30
         var APREM = [870, 1170];      // 14h30 - 19h30
+        var JOURS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
         function creneaux(jour) {
             return (jour === 0 || jour === 4) ? [MATIN] : [MATIN, APREM];
         }
@@ -1029,25 +1028,87 @@
             }
             return { ouvert: false, texte: 'Fermé, ouvre demain à ' + heure(creneaux((jour + 1) % 7)[0][0]) };
         }
-        // Heure de France, quel que soit le pays du visiteur
-        var paris = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
-        var jour = paris.getDay();
-        var s = statut(jour, paris.getHours() * 60 + paris.getMinutes());
-        var badge = document.getElementById('statut');
-        badge.textContent = s.texte;
-        badge.className = 'statut ' + (s.ouvert ? 'ouvert' : 'ferme');
-        document.querySelectorAll('.horaire-item').forEach(function (el) {
-            if (el.dataset.jours.split(',').indexOf(String(jour)) !== -1) el.classList.add('aujourdhui');
+        // "1 h 05" ou "25 min"
+        function duree(min) {
+            var h = Math.floor(min / 60), m = min % 60;
+            return h ? h + ' h ' + (m < 10 ? '0' : '') + m : m + ' min';
+        }
+        // Grand texte de la carte "Aujourd'hui"
+        function compteARebours(jour, min) {
+            var c = creneaux(jour);
+            for (var i = 0; i < c.length; i++) {
+                if (min >= c[i][0] && min < c[i][1]) return 'Ferme dans ' + duree(c[i][1] - min);
+                if (min < c[i][0]) return 'Ouvre dans ' + duree(c[i][0] - min);
+            }
+            return 'Fermé pour aujourd\'hui';
+        }
+
+        // Frise de la journee, de 6h a 20h30
+        var DEBUT = 360, FIN = 1230;
+        function pourcent(min) { return ((min - DEBUT) / (FIN - DEBUT) * 100).toFixed(2) + '%'; }
+        function dessinerFrise(jour, min) {
+            var frise = document.getElementById('frise');
+            var etiquettes = document.getElementById('frise-heures');
+            frise.innerHTML = '';
+            etiquettes.innerHTML = '';
+            creneaux(jour).forEach(function (c) {
+                var b = document.createElement('span');
+                b.className = 'creneau' + (min >= c[1] ? ' passe' : '');
+                b.style.left = pourcent(c[0]);
+                b.style.width = ((c[1] - c[0]) / (FIN - DEBUT) * 100).toFixed(2) + '%';
+                frise.appendChild(b);
+                [c[0], c[1]].forEach(function (t) {
+                    var e = document.createElement('span');
+                    e.textContent = heure(t);
+                    e.style.left = pourcent(t);
+                    etiquettes.appendChild(e);
+                });
+            });
+            if (min >= DEBUT && min <= FIN) {
+                var m = document.createElement('span');
+                var p = (min - DEBUT) / (FIN - DEBUT);
+                m.className = 'maintenant' + (p > 0.85 ? ' droite' : p < 0.15 ? ' gauche' : '');
+                m.style.left = pourcent(min);
+                frise.appendChild(m);
+            }
+        }
+
+        // Met tout a jour (au chargement, puis chaque minute)
+        function majHoraires() {
+            // Heure de France, quel que soit le pays du visiteur
+            var paris = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+            var jour = paris.getDay();
+            var min = paris.getHours() * 60 + paris.getMinutes();
+            var s = statut(jour, min);
+            var badge = document.getElementById('statut');
+            badge.textContent = s.texte;
+            badge.className = 'statut ' + (s.ouvert ? 'ouvert' : 'ferme');
+            document.querySelectorAll('.horaire-item').forEach(function (el) {
+                el.classList.toggle('aujourdhui', el.dataset.jours.split(',').indexOf(String(jour)) !== -1);
+            });
+            document.getElementById('jour-nom').textContent = JOURS[jour] + ", aujourd'hui";
+            document.getElementById('jour-grand').textContent = compteARebours(jour, min);
+            document.getElementById('jour-petit').textContent = s.texte;
+            dessinerFrise(jour, min);
+        }
+        majHoraires();
+        setInterval(majHoraires, 60000);
+
+        // Carte Google : chargee seulement apres un clic
+        document.getElementById('carte-btn').addEventListener('click', function () {
+            var f = document.createElement('iframe');
+            f.className = 'map-iframe';
+            f.title = 'Carte : Le Chiquito, 6 bis rue du 14 Juillet, Arès';
+            f.src = 'https://maps.google.com/maps?q=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s&z=17&output=embed';
+            f.setAttribute('allowfullscreen', '');
+            f.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+            var attente = document.getElementById('carte');
+            attente.parentNode.replaceChild(f, attente);
         });
-        // Bouton Appeler du bas : visible seulement quand celui du haut ne l'est plus
-        var appelBas = document.querySelector('.appel-mobile');
-        var appelHaut = document.querySelector('.hero .btn-primary');
-        if ('IntersectionObserver' in window && appelHaut) {
-            new IntersectionObserver(function (e) {
-                appelBas.classList.toggle('cache', e[0].isIntersecting);
-            }).observe(appelHaut);
-        } else {
-            appelBas.classList.remove('cache');
+
+        // Appli installable + horaires lisibles sans reseau (seulement une fois en ligne, en https)
+        if ('serviceWorker' in navigator && location.protocol === 'https:') {
+            navigator.serviceWorker.register('sw.js');
         }
     </script>
 </body>
