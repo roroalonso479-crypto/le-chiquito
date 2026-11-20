@@ -415,6 +415,10 @@
         .about-list { list-style: none; margin-top: 1rem; }
         .about-list li { padding: 0.55rem 0; border-top: 1px solid var(--trait); font-weight: 500; }
 
+        /* Services : 3 cartes cote a cote (une sous l'autre sur telephone) */
+        .services-bloc { margin-top: 3rem; scroll-margin-top: 96px; }
+        .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+
         .product-card { overflow: hidden; }
         .produit-photo { aspect-ratio: 16 / 10; background-color: var(--navy); background-size: cover; background-position: center; }
         /* Photo en WebP (plus legere), JPG si le navigateur est ancien */
@@ -602,7 +606,7 @@
         @media (max-width: 900px) {
             .accueil { grid-template-columns: 1fr; }
             .carte-photo { min-height: 340px; }
-            .about, .contact-grid { grid-template-columns: 1fr; }
+            .about, .contact-grid, .services { grid-template-columns: 1fr; }
             .ligne { grid-template-columns: 1fr auto; }
             .ligne .mini { grid-column: 1 / -1; grid-row: 2; }
         }
@@ -697,6 +701,7 @@
                 <a href="#photos">Photos</a>
                 <a href="#about">À Propos</a>
                 <a href="#products">Produits</a>
+                <a href="#services">Services</a>
                 <a href="#contact">Contact</a>
             </nav>
             <span id="statut" class="statut"></span>
@@ -814,7 +819,7 @@
                     <ul class="about-list">
                         <li>Tabac et accessoires</li>
                         <li>Journaux, magazines, BD complètes</li>
-                        <li>Jeux FDJ : grattage, loto, paris sportifs</li>
+                        <li>Jeux FDJ et PMU : grattage, loto, paris sportifs et hippiques</li>
                         <li>Articles pratiques et confiseries</li>
                         <li>Une équipe toujours disponible&nbsp;!</li>
                     </ul>
@@ -837,7 +842,7 @@
                 </article>
                 <article class="carte product-card revele">
                     <div class="produit-photo p-jeux" aria-hidden="true"></div>
-                    <div class="produit-texte"><h3>Jeux FDJ</h3><p>Jeux à gratter, loto, paris sportifs.</p></div>
+                    <div class="produit-texte"><h3>Jeux FDJ &amp; PMU</h3><p>Jeux à gratter, loto, paris sportifs et hippiques.</p></div>
                 </article>
                 <article class="carte product-card revele">
                     <div class="produit-photo p-accessoires" aria-hidden="true"></div>
@@ -851,6 +856,35 @@
                     <div class="produit-photo p-divers" aria-hidden="true"></div>
                     <div class="produit-texte"><h3>Articles Divers</h3><p>Mercerie, piles, cartes postales, et bien d'autres surprises.</p></div>
                 </article>
+            </div>
+            <div id="services" class="services-bloc">
+                <h2>Nos Services</h2>
+                <div class="services">
+                    <div class="carte about-box">
+                        <h3>Démarches</h3>
+                        <ul class="about-list">
+                            <li>Paiement des amendes</li>
+                            <li>Timbres fiscaux</li>
+                            <li>Timbres-poste</li>
+                        </ul>
+                    </div>
+                    <div class="carte about-box">
+                        <h3>Paiements et recharges</h3>
+                        <ul class="about-list">
+                            <li>Paiement de factures et d'impôts en espèces</li>
+                            <li>Recharges de téléphone</li>
+                            <li>Cartes prépayées</li>
+                        </ul>
+                    </div>
+                    <div class="carte about-box">
+                        <h3>Au quotidien</h3>
+                        <ul class="about-list">
+                            <li>Dépôt de pain</li>
+                            <li>Boissons en canette</li>
+                            <li>Photocopies</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="carte mentions">
                 <p><strong>Vente de tabac et jeux d'argent interdite aux mineurs.</strong></p>
