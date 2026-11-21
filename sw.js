@@ -3,7 +3,7 @@
 //   la copie ne sert que s'il n'y a pas de reseau.
 // - Photos et police : copie d'abord (plus rapide), internet sinon.
 // Changer le numero de version ci-dessous a chaque grosse mise a jour.
-var CACHE = 'chiquito-v1';
+var CACHE = 'chiquito-v2';
 var ESSENTIEL = ['./', './index.html', './polices/outfit.woff2', './facade.webp', './icone-192.png'];
 
 self.addEventListener('install', function (e) {
@@ -25,9 +25,12 @@ self.addEventListener('fetch', function (e) {
     if (req.mode === 'navigate') {
         e.respondWith(fetch(req).then(function (rep) {
             var copie = rep.clone();
-            caches.open(CACHE).then(function (c) { c.put('./', copie); });
+            // Chaque page est gardee sous son propre nom (accueil, Decouvrir Ares...)
+            if (rep.ok) caches.open(CACHE).then(function (c) { c.put(req, copie); });
             return rep;
-        }).catch(function () { return caches.match('./'); }));
+        }).catch(function () {
+            return caches.match(req).then(function (trouve) { return trouve || caches.match('./'); });
+        }));
         return;
     }
 

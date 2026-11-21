@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Découvrir Arès : 10 lieux à voir | Le Chiquito</title>
+    <meta name="description" content="Que voir à Arès, sur le bassin d'Arcachon ? Port ostréicole, prés salés, jetée, plage, Saint-Brice, tour d'Arès... Nos 10 lieux préférés, avec photos.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%23007577'/><text x='32' y='45' font-family='Arial' font-weight='bold' font-size='38' fill='%23FFC93C' text-anchor='middle'>C</text></svg>">
+    <link rel="canonical" href="https://roroalonso479-crypto.github.io/le-chiquito/decouvrir-ares.html">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icone-180.png">
+    <meta name="apple-mobile-web-app-title" content="Le Chiquito">
+    <meta name="color-scheme" content="light dark">
+    <link rel="preload" as="image" href="ares/piquets.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="font" href="polices/outfit.woff2" type="font/woff2" crossorigin>
+    <meta name="theme-color" content="#1D3557">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Le Chiquito">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Découvrir Arès : 10 lieux à voir">
+    <meta property="og:description" content="Port ostréicole, prés salés, jetée, plage, Saint-Brice... Nos 10 lieux préférés à Arès, sur le bassin d'Arcachon.">
+    <meta property="og:image" content="https://roroalonso479-crypto.github.io/le-chiquito/ares/piquets.jpg">
+    <meta property="og:url" content="https://roroalonso479-crypto.github.io/le-chiquito/decouvrir-ares.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Découvrir Arès : 10 lieux à voir",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Port ostréicole d'Arès" },
+        { "@type": "ListItem", "position": 2, "name": "Réserve naturelle des prés salés d'Arès et de Lège-Cap Ferret" },
+        { "@type": "ListItem", "position": 3, "name": "Jetée d'Arès" },
+        { "@type": "ListItem", "position": 4, "name": "Église Saint-Vincent-de-Paul d'Arès" },
+        { "@type": "ListItem", "position": 5, "name": "Domaine de Saint-Brice" },
+        { "@type": "ListItem", "position": 6, "name": "Plage d'Arès" },
+        { "@type": "ListItem", "position": 7, "name": "Château d'Arès" },
+        { "@type": "ListItem", "position": 8, "name": "Club nautique Jean-Jacques Savin" },
+        { "@type": "ListItem", "position": 9, "name": "Maisons à auvent" },
+        { "@type": "ListItem", "position": 10, "name": "Tour d'Arès" }
+      ]
+    }
+    </script>
+    <style>
+        /* Meme style que la page d'accueil (index.html) */
+        @font-face {
+            font-family: 'Outfit';
+            src: url('polices/outfit.woff2') format('woff2');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #007577;
+            --secondary: #FFC93C;
+            --accent: #D63864;
+            --navy: #1D3557;
+            --cream: #FFFDF6;
+            --light: #EEF8F7;
+
+            --fond: var(--cream);
+            --fond-2: var(--light);
+            --carte: #fff;
+            --texte: #222;
+            --texte-doux: #4d5560;
+            --titre: var(--primary);
+            --trait: rgba(29,53,87,0.12);
+            --rayon: 22px;
+            --ombre: 0 4px 18px rgba(29,53,87,0.08);
+            --barre-bas: 0px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --fond: var(--navy);
+                --fond-2: rgba(0,0,0,0.16);
+                --carte: rgba(255,255,255,0.07);
+                --texte: var(--cream);
+                --texte-doux: rgba(255,253,246,0.78);
+                --titre: var(--light);
+                --trait: rgba(255,255,255,0.14);
+                --ombre: none;
+            }
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+            font-size: 1.06rem;
+            line-height: 1.6;
+            color: var(--texte);
+            background: var(--fond);
+            padding-bottom: var(--barre-bas);
+        }
+
+        img { display: block; max-width: 100%; height: auto; }
+        h1, h2, h3 { text-wrap: balance; line-height: 1.12; }
+
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ===== Barre du haut ===== */
+        .header-top {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            background: var(--navy);
+            color: white;
+            border-bottom: 4px solid var(--secondary);
+            padding-top: env(safe-area-inset-top);
+        }
+        .barre {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.45rem;
+            letter-spacing: -0.5px;
+            margin-right: auto;
+            white-space: nowrap;
+        }
+        .menu-haut { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+        .menu-haut a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            transition: background-color 0.2s;
+        }
+        .menu-haut a:hover, .menu-haut a[aria-current] { background: rgba(255,255,255,0.14); }
+        .horaires-ligne {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 0 1rem 0.55rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* ===== Grande photo du haut ===== */
+        .haut-photo {
+            position: relative;
+            margin-top: 1.5rem;
+            min-height: 440px;
+            border-radius: var(--rayon);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: white;
+            isolation: isolate;
+        }
+        .haut-photo picture, .haut-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+        .haut-photo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(0,117,119,0.05) 25%, rgba(29,53,87,0.92) 88%);
+        }
+        .haut-photo h1 { font-size: clamp(2.3rem, 6.5vw, 4.2rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.02; margin-bottom: 0.7rem; }
+        .haut-photo p { font-size: 1.15rem; font-weight: 500; max-width: 46ch; }
+
+        /* ===== Les 10 lieux ===== */
+        section { padding: 3rem 0; }
+        .lieux {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.4rem;
+        }
+        .lieu {
+            background: var(--carte);
+            border: 1px solid var(--trait);
+            border-radius: var(--rayon);
+            box-shadow: var(--ombre);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .lieu-photo { position: relative; aspect-ratio: 3 / 2; background: var(--fond-2); }
+        .lieu-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .numero {
+            position: absolute;
+            top: 0.9rem;
+            left: 0.9rem;
+            display: grid;
+            place-items: center;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: var(--navy);
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+        .lieu-texte { padding: 1.3rem 1.5rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
+        .lieu h2 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--titre);
+            margin-bottom: 0.6rem;
+            overflow-wrap: anywhere;
+        }
+        .lieu h2::after {
+            content: "";
+            display: block;
+            width: 48px;
+            height: 5px;
+            margin-top: 0.45rem;
+            border-radius: 3px;
+            background: var(--secondary);
+        }
+        .lieu p { color: var(--texte-doux); margin-bottom: 0.8rem; }
+        .pratique {
+            margin-top: auto;
+            padding-top: 0.9rem;
+            border-top: 1px solid var(--trait);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.4rem 1rem;
+            font-size: 0.95rem;
+        }
+        .pratique span { font-weight: 600; color: var(--texte); }
+        .pratique a {
+            color: var(--texte);
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: var(--secondary);
+            text-decoration-thickness: 3px;
+            text-underline-offset: 4px;
+            white-space: nowrap;
+        }
+        .pratique a:hover { color: var(--accent); }
+
+        /* ===== Passez au Chiquito ===== */
+        .chiquito {
+            margin-top: 2.4rem;
+            background: var(--carte);
+            border: 1px solid var(--trait);
+            border-top: 6px solid var(--secondary);
+            border-radius: var(--rayon);
+            box-shadow: var(--ombre);
+            padding: 1.8rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1.2rem 2rem;
+            align-items: center;
+        }
+        .chiquito h2 { font-size: clamp(1.5rem, 4.5vw, 2rem); color: var(--titre); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+        .chiquito p { color: var(--texte-doux); }
+        .chiquito .adresse { color: var(--texte); font-weight: 600; margin-top: 0.5rem; }
+        .boutons { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+        .btn {
+            display: inline-block;
+            padding: 0.95rem 2rem;
+            font-weight: 600;
+            border-radius: 999px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-route { background: var(--secondary); color: var(--navy); }
+        .btn-route:hover { background: #ffd666; transform: translateY(-2px); }
+        .btn-accueil { background: var(--primary); color: white; }
+        .btn-accueil:hover { transform: translateY(-2px); }
+
+        /* ===== Pied de page ===== */
+        footer {
+            background: var(--navy);
+            color: white;
+            padding: 2.6rem 1.5rem;
+            text-align: center;
+            border-top: 5px solid var(--secondary);
+        }
+        @media (prefers-color-scheme: dark) { footer { background: rgba(0,0,0,0.25); } }
+        footer strong { display: block; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.3rem; }
+        footer p { margin: 0.4rem auto; max-width: 760px; }
+        footer a { color: white; }
+        footer .loi { margin-top: 1rem; font-size: 0.9rem; opacity: 0.95; }
+        footer .copy { font-size: 0.9rem; opacity: 0.85; }
+        .credits { font-size: 0.75rem; opacity: 0.78; max-width: 700px; margin: 1rem auto 0 !important; }
+
+        .barre-bas { display: none; }
+
+        a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+        @media (prefers-color-scheme: dark) { a:focus-visible { outline-color: var(--secondary); } }
+
+        .skip-link {
+            position: absolute;
+            left: 1rem;
+            top: -100px;
+            background: var(--secondary);
+            color: var(--navy);
+            padding: 0.6rem 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            z-index: 2000;
+        }
+        .skip-link:focus { top: 1rem; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            * { transition: none !important; }
+            .btn:hover { transform: none; }
+        }
+
+        @media (max-width: 900px) {
+            .menu-haut a { padding: 0.3rem 0.55rem; }
+        }
+
+        @media (max-width: 760px) {
+            .lieux { grid-template-columns: 1fr; }
+            .chiquito { grid-template-columns: 1fr; padding: 1.4rem; }
+            .boutons .btn { flex: 1 1 100%; }
+        }
+
+        @media (max-width: 768px) {
+            :root { --barre-bas: calc(68px + env(safe-area-inset-bottom)); --rayon: 20px; }
+            .container { padding: 0 1rem; }
+            .barre { padding: 0.55rem 1rem; }
+            .logo { font-size: 1.3rem; }
+            .menu-haut { display: none; }
+            .horaires-ligne { font-size: 0.82rem; }
+            .haut-photo { margin-top: 1rem; min-height: 340px; padding: 1.3rem; }
+            section { padding: 2.2rem 0; }
+            .lieu-texte { padding: 1.1rem 1.2rem 1.3rem; }
+
+            .barre-bas {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 100;
+                padding: 0.35rem 0.4rem calc(0.35rem + env(safe-area-inset-bottom));
+                background: rgba(255,253,246,0.94);
+                -webkit-backdrop-filter: blur(14px);
+                backdrop-filter: blur(14px);
+                border-top: 1px solid var(--trait);
+            }
+            @media (prefers-color-scheme: dark) { .barre-bas { background: rgba(29,53,87,0.94); } }
+            .barre-bas a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.1rem;
+                padding: 0.3rem 0;
+                border-radius: 14px;
+                color: var(--texte);
+                text-decoration: none;
+                font-size: 0.74rem;
+                font-weight: 600;
+            }
+            .barre-bas svg { width: 24px; height: 24px; }
+            .barre-bas .appel { background: var(--accent); color: white; }
+        }
+
+        @media (max-width: 400px) {
+            .logo { font-size: 1.15rem; }
+            .numero { width: 40px; height: 40px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+
+    <div class="header-top">
+        <div class="barre">
+            <a class="logo" href="index.html">Le Chiquito</a>
+            <nav class="menu-haut" aria-label="Menu principal">
+                <a href="index.html#horaires">Horaires</a>
+                <a href="index.html#photos">Photos</a>
+                <a href="index.html#about">À Propos</a>
+                <a href="index.html#products">Produits</a>
+                <a href="index.html#services">Services</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="decouvrir-ares.html" aria-current="page">Découvrir Arès</a>
+            </nav>
+        </div>
+        <p class="horaires-ligne">Lun-Mer &amp; Ven-Sam 7h-12h30 | 14h30-19h30 &middot; Jeudi &amp; Dim matin 7h-12h30</p>
+    </div>
+
+    <main id="contenu">
+        <div class="container">
+            <header class="haut-photo">
+                <picture>
+                    <source type="image/webp" srcset="ares/piquets.webp">
+                    <img src="ares/piquets.jpg" width="1600" height="900" alt="Vieux piquets en bois dans l'eau du bassin d'Arcachon à Arès" fetchpriority="high">
+                </picture>
+                <h1>Découvrir Arès&nbsp;: 10 lieux à voir</h1>
+                <p>Entre forêt et bassin d'Arcachon, Arès se découvre à pied, au fil de l'eau. Voici nos 10 coins préférés, choisis par l'équipe du Chiquito.</p>
+            </header>
+        </div>
+
+        <section aria-label="Les 10 lieux">
+            <div class="container">
+                <ol class="lieux">
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/port.webp"><img src="ares/port.jpg" width="1000" height="667" alt="Bateaux amarrés dans le chenal du port ostréicole d'Arès" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">1</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>Le port ostréicole</h2>
+                            <p>Le cœur d'Arès bat ici : les bateaux des ostréiculteurs alignés le long du chenal, les maisons basses au bord de l'eau, et le bassin qui s'ouvre au bout.</p>
+                            <p>Le plus beau moment : la fin de journée, quand la lumière dore le chenal.</p>
+                            <div class="pratique"><span>Idéal en fin de journée</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Port%20ostr%C3%A9icole%20Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/pres-sales.webp"><img src="ares/pres-sales.jpg" width="1000" height="667" alt="Chenal au milieu des herbes de la réserve des prés salés d'Arès" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">2</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>La réserve des prés salés</h2>
+                            <p>Réserve naturelle depuis 1983, ce sont les plus grands prés salés d'Aquitaine : des prairies que la marée vient inonder, entre Arès et Lège-Cap Ferret.</p>
+                            <p>Environ 6 km de sentiers permettent de s'y promener au rythme des marées.</p>
+                            <div class="pratique"><span>Chiens et vélos interdits</span><a href="https://www.google.com/maps/search/?api=1&amp;query=R%C3%A9serve%20naturelle%20des%20pr%C3%A9s%20sal%C3%A9s%20Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/jetee.webp"><img src="ares/jetee.jpg" width="800" height="534" alt="La jetée d'Arès qui avance dans le bassin à marée haute" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">3</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>La jetée</h2>
+                            <p>Une longue avancée dans le bassin d'Arcachon. À marée haute, l'eau l'entoure des deux côtés : on a l'impression de marcher sur la mer.</p>
+                            <p>Au bout, la vue s'étend sur tout le bassin.</p>
+                            <div class="pratique"><span>À voir à marée haute</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Jet%C3%A9e%20Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/eglise.webp"><img src="ares/eglise.jpg" width="1000" height="667" alt="Le clocher de l'église Saint-Vincent-de-Paul d'Arès" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">4</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>L'église Saint-Vincent-de-Paul</h2>
+                            <p>Construite de 1868 à 1878, elle domine le centre d'Arès avec son haut clocher de pierre.</p>
+                            <p>À l'intérieur, ne manquez pas les vitraux de Raymond Mirande.</p>
+                            <div class="pratique"><span>En plein centre</span><a href="https://www.google.com/maps/search/?api=1&amp;query=%C3%89glise%20Saint-Vincent-de-Paul%20Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/saint-brice.webp"><img src="ares/saint-brice.jpg" width="822" height="548" alt="Carte postale ancienne de la prairie de Saint-Brice à Arès" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">5</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>Le domaine de Saint-Brice</h2>
+                            <p>Un grand espace naturel protégé par le Conservatoire du littoral, entre pins, prairies et bord de bassin. Ici, sur une carte postale d'autrefois.</p>
+                            <p>On peut le découvrir à pied par le sentier des 3 eaux (5 km).</p>
+                            <div class="pratique"><span>Sentier des 3 eaux&nbsp;: 5 km</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Domaine%20de%20Saint-Brice%20Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/plage.webp"><img src="ares/plage.jpg" width="1000" height="667" alt="La plage de sable d'Arès face au bassin d'Arcachon" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">6</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>La plage d'Arès</h2>
+                            <p>Environ 2 km de sable, de la jetée jusqu'à Saint-Brice, face au bassin d'Arcachon.</p>
+                            <p>À marée basse, le bassin se découvre et offre une tout autre promenade.</p>
+                            <div class="pratique"><span>2 km, de la jetée à Saint-Brice</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Plage%20d%27Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/chateau.webp"><img src="ares/chateau.jpg" width="1000" height="667" alt="Façade rose du château d'Arès entre les arbres" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">7</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>Le château d'Arès</h2>
+                            <p>Une élégante demeure aux façades roses, nichée dans son parc arboré. Elle a été reconstruite en 1849 par le banquier Léopold Javal, dont la famille a marqué l'histoire d'Arès.</p>
+                            <div class="pratique"><span>Visible depuis l'avenue de la Plage</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Ch%C3%A2teau%20d%27Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/club-savin.webp"><img src="ares/club-savin.jpg" width="1000" height="667" alt="Le club nautique d'Arès, dédié à Jean-Jacques Savin" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">8</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>Le club nautique Jean-Jacques Savin</h2>
+                            <p>Le club nautique d'Arès est dédié à un enfant du pays, « amoureux du bassin ». En 2019, Jean-Jacques Savin (1947-2022) a traversé l'océan Atlantique à bord d'un tonneau, à la dérive.</p>
+                            <p>Une plaque raconte son histoire sur le mur du club.</p>
+                            <div class="pratique"><span>Une belle histoire d'Arès</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Club%20nautique%20Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/auvent.webp"><img src="ares/auvent.jpg" width="1000" height="667" alt="Maison basse d'Arès avec son auvent en bois découpé" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">9</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>Les maisons à auvent</h2>
+                            <p>En flânant dans les rues, levez les yeux : certaines maisons basses arborent un auvent typique, avec sa frise de bois découpé comme de la dentelle.</p>
+                            <p>Une balade tranquille pour découvrir les recoins d'Arès.</p>
+                            <div class="pratique"><span>Balade à pied dans le bourg</span></div>
+                        </div>
+                    </li>
+
+                    <li class="lieu">
+                        <div class="lieu-photo">
+                            <picture><source type="image/webp" srcset="ares/tour.webp"><img src="ares/tour.jpg" width="1000" height="667" alt="La tour d'Arès, ronde, en pierre, avec ses créneaux" loading="lazy"></picture>
+                            <span class="numero" aria-hidden="true">10</span>
+                        </div>
+                        <div class="lieu-texte">
+                            <h2>La tour d'Arès</h2>
+                            <p>Cette tour ronde à créneaux était à l'origine un moulin, construit en 1840. Elle a pris son allure de petit château fort en 1882.</p>
+                            <div class="pratique"><span>Un petit air de château fort</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Tour%20d%27Ar%C3%A8s" target="_blank" rel="noopener">Voir sur la carte</a></div>
+                        </div>
+                    </li>
+                </ol>
+
+                <div class="chiquito">
+                    <div>
+                        <h2>Passez au Chiquito</h2>
+                        <p>Avant ou après la balade, passez nous voir : journaux, magazines, cartes postales et confiseries.</p>
+                        <p class="adresse">6 bis rue du 14 Juillet, 33740 Arès &middot; 06 11 09 03 90</p>
+                        <p>Lun-Mer &amp; Ven-Sam 7h-12h30 | 14h30-19h30 &middot; Jeudi &amp; Dim matin 7h-12h30</p>
+                    </div>
+                    <div class="boutons">
+                        <a class="btn btn-route" href="https://www.google.com/maps/dir/?api=1&amp;destination=6%20bis%20rue%20du%2014%20Juillet%2C%2033740%20Ar%C3%A8s" target="_blank" rel="noopener">Itinéraire</a>
+                        <a class="btn btn-accueil" href="index.html">Notre boutique</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <strong>Le Chiquito</strong>
+        <p>6 bis rue du 14 juillet, 33740 Arès</p>
+        <p>06 11 09 03 90</p>
+        <p><a href="index.html">Accueil</a> &middot; <a href="decouvrir-ares.html">Découvrir Arès</a></p>
+        <p class="loi">Vente de tabac et jeux d'argent interdite aux mineurs. Jouer comporte des risques : endettement, isolement, dépendance. Pour être aidé, appelez le 09 74 75 13 13 (appel non surtaxé).</p>
+        <p class="copy">© 2026 Le Chiquito - Tous droits réservés</p>
+        <p class="credits">Photos via Wikimedia Commons, recadrées :
+            <a href="https://commons.wikimedia.org/wiki/File:Arès_le_bassin.JPG" target="_blank" rel="noopener">piquets</a>, <a href="https://commons.wikimedia.org/wiki/File:Arès_le_port_ostréicole.JPG" target="_blank" rel="noopener">port</a> et <a href="https://commons.wikimedia.org/wiki/File:Arès_église.JPG" target="_blank" rel="noopener">église</a> par Hamon jp (<a href="https://creativecommons.org/licenses/by-sa/3.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 3.0</a>) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Réserve_Naturelle_Prés_Salés_d'Arès_et_de_Lège_-_2017aa.jpg" target="_blank" rel="noopener">prés salés</a> et <a href="https://commons.wikimedia.org/wiki/File:Bassin_d'arcachon_à_Arès_-_2017a.jpg" target="_blank" rel="noopener">plage</a> par Nataloche (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 4.0</a>) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Jetee_Ares.jpg" target="_blank" rel="noopener">jetée</a> par Frédéric Esplandiu (<a href="https://creativecommons.org/licenses/by-sa/3.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 3.0</a>) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Arès_-_prairie_Saint-Brice.jpg" target="_blank" rel="noopener">Saint-Brice</a>, carte postale de Marcel Delboy (domaine public) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Chateau-Ares-6.jpg" target="_blank" rel="noopener">château</a> par Didier-CTP (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 4.0</a>) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Arès_-_club_nautique_Jean-Jacques_Savin._01.jpg" target="_blank" rel="noopener">club nautique</a> par Ltqphg (CC0) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Arès_-_Auvent.jpg" target="_blank" rel="noopener">maison à auvent</a> par PA (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 4.0</a>) ;
+            <a href="https://commons.wikimedia.org/wiki/File:Arès_33_Tour.jpg" target="_blank" rel="noopener">tour d'Arès</a> par Henry Salomé (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 4.0</a>).
+        </p>
+    </footer>
+
+    <!-- Barre de boutons en bas, sur telephone -->
+    <nav class="barre-bas" aria-label="Raccourcis">
+        <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Accueil</a>
+        <a href="index.html#horaires"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Horaires</a>
+        <a href="#contenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg>Arès</a>
+        <a href="index.html#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Contact</a>
+        <a href="tel:0611090390" class="appel" aria-label="Appeler le 06 11 09 03 90"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Appeler</a>
+    </nav>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -138,6 +138,7 @@
             font-size: 1.45rem;
             letter-spacing: -0.5px;
             margin-right: auto;
+            white-space: nowrap;
         }
         .statut {
             display: inline-block;
@@ -415,6 +416,11 @@
         .about-list { list-style: none; margin-top: 1rem; }
         .about-list li { padding: 0.55rem 0; border-top: 1px solid var(--trait); font-weight: 500; }
 
+        /* Encart vers la page Decouvrir Ares */
+        .encart-ares { padding-top: 0; }
+        .encart-ares .about-box { max-width: 680px; }
+        .encart-ares p { color: var(--texte-doux); margin: 0.5rem 0 1.2rem; }
+
         /* Services : 3 cartes cote a cote (une sous l'autre sur telephone) */
         .services-bloc { margin-top: 3rem; scroll-margin-top: 96px; }
         .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
@@ -603,6 +609,12 @@
             .btn:hover, .action:hover { transform: none; }
         }
 
+        /* Ecrans moyens : le menu peut passer sur 2 lignes (7 liens + pastille Ouvert/Ferme) */
+        @media (max-width: 1100px) {
+            .menu-haut { flex-wrap: wrap; justify-content: flex-end; }
+            .menu-haut a { padding: 0.3rem 0.55rem; }
+        }
+
         @media (max-width: 900px) {
             .accueil { grid-template-columns: 1fr; }
             .carte-photo { min-height: 340px; }
@@ -703,6 +715,7 @@
                 <a href="#products">Produits</a>
                 <a href="#services">Services</a>
                 <a href="#contact">Contact</a>
+                <a href="decouvrir-ares.html">Découvrir Arès</a>
             </nav>
             <span id="statut" class="statut"></span>
         </div>
@@ -932,6 +945,16 @@
         </div>
     </section>
 
+    <section class="encart-ares" aria-label="Découvrir Arès">
+        <div class="container">
+            <div class="carte about-box">
+                <h3>Vous visitez Arès&nbsp;?</h3>
+                <p>Port ostréicole, prés salés, jetée, plage... Découvrez nos 10 lieux préférés pour profiter d'Arès dans tous ses recoins.</p>
+                <a class="btn btn-secondary" href="decouvrir-ares.html">Découvrir Arès</a>
+            </div>
+        </div>
+    </section>
+
     <section id="contact" class="fond-2">
         <div class="container">
             <h2>Nous Contacter &amp; Nous Localiser</h2>
@@ -986,6 +1009,7 @@
         <strong>Le Chiquito</strong>
         <p>6 bis rue du 14 juillet, 33740 Arès</p>
         <p>06 11 09 03 90</p>
+        <p><a href="decouvrir-ares.html" style="color: white;">Découvrir Arès : 10 lieux à voir</a></p>
         <p class="loi">Vente de tabac et jeux d'argent interdite aux mineurs. Jouer comporte des risques : endettement, isolement, dépendance. Pour être aidé, appelez le 09 74 75 13 13 (appel non surtaxé).</p>
         <p class="copy">© 2026 Le Chiquito - Tous droits réservés</p>
         <p class="credits">Photos des produits via Wikimedia Commons : kiosque par Benoît Prieur (CC0), briquet par Kimmo Palosaari (domaine public), bonbons par Jebulon (CC0), <a href="https://commons.wikimedia.org/wiki/File:Bingo_balls_in_bingo_drum.jpg" target="_blank" rel="noopener">boules de loto</a> par elizaIO (<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0</a>), cartes postales par Mutney (CC0). Photos recadrées et assombries.</p>
